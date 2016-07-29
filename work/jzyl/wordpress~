@@ -1,9 +1,0 @@
-2016/07/28
-
-1. 前端去除adminbar
-    file path: wordpress/wp-content/themes/twentysixteen/functions.php
-    add: show_admin_bar(false);
-
-2. 去除sidebar
-    file path: wordpress/wp-content/themes/twentysixteen/index.php
-    delete: <?php get_sidebar(); ?>

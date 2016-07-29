@@ -7,3 +7,14 @@
 2. 去除sidebar
     file path: wordpress/wp-content/themes/twentysixteen/index.php
     delete: <?php get_sidebar(); ?>
+
+2016/07/29
+
+1. 去除twentysixteen四周的黑边
+    a. style.css
+    modify .site line 2733
+    去除margin
+
+    b. style.css
+    line 2714
+    去除 height
