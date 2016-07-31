@@ -17,3 +17,10 @@
         ((= kinds-of-coins 3) 10)
         ((= kinds-of-coins 4) 25)
         ((= kinds-of-coins 5) 50)))
+
+;; 打印出币值从0到n(n是大于0的整数)的换零钱方式数的序列
+(define (vec-cc amount)
+  (do ((vec (make-vector (+ amount 1)))
+       (i 0 (+ i 1)))
+      ((> i amount) vec)
+      (vector-set! vec i (count-change i))))
