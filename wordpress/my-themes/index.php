@@ -55,7 +55,7 @@
 
     <div class="sidebar">
         <ul>
-        <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar()) : ?>
+        <?php if (function_exists('dynamic_sidebar') && dynamic_sidebar()) :else : ?>
             <li id="search">
                 <?php include(TEMPLATEPATH . '/searchform.php'); ?>
             </li>
@@ -89,7 +89,5 @@
         <?php endif; ?>
         </ul>
     </div>
-<?php get_sidebar(); ?>
 </body>
 </html>
-
