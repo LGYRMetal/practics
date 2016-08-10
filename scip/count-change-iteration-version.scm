@@ -22,10 +22,9 @@
             ((= a 0) (vector-set! vec-inner a 1))
             (else
               (if (< a (first-denomination k))
-                (vector-set! vec-inner a (+ (vector-ref
+                (vector-set! vec-inner a (vector-ref
                                               (vector-ref vec-outer (- k 1))
-                                              a)
-                                            0))
+                                              a))
                 (vector-set! vec-inner a (+ (vector-ref
                                               (vector-ref vec-outer (- k 1))
                                               a)
