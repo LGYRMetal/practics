@@ -9,4 +9,10 @@ function lgy_setup() {
     add_theme_support('title-tag');
 }
 add_action('after_setup_theme', 'lgy_setup');
+
+// close the xml-rpc
+add_filter('xmlrpc_enabled', '__return_false');
+
+// remove admin bar from my theme
+show_admin_bar(false);
 ?>

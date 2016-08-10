@@ -637,6 +637,5 @@ jsFileLocation:"//demo.izt8.com/third/wp-content/plugins/revslider/public/assets
                     <script type='text/javascript' src='http://demo.izt8.com/third/wp-content/themes/Third/js/main.js?ver=1.5'></script>
 <script type='text/javascript' src='http://demo.izt8.com/third/wp-includes/js/wp-embed.min.js?ver=4.5.3'></script>
     <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":[{"tag" : "single", "bdSize" : 16}, {"tag" : "global","bdSize" : 16,bdPopupOffsetLeft:-227}],url:'http://demo.izt8.com/third/wp-content/themes/Third'};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://demo.izt8.com/third/wp-content/themes/Third/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-<a href='http://demo.izt8.com/third/wp-content/themes/Third/images/menu-item.png?1459055819'>aaa</a>
 </body>
 </html>
