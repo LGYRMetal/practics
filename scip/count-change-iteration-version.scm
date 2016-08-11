@@ -1,0 +1,72 @@
+;; 换零钱迭代过程算法
+(define (count-change amount)
+  (cc amount 5))
+
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+
+(define (cc amount kinds-of-coins)
+  ; a: index of amount; k: index of kinds-of-coins
+  (do ((vec-outer (make-vector (+ kinds-of-coins 1)))
+       (k 0 (+ k 1)))
+    ((> k kinds-of-coins) (vector-ref (vector-ref vec-outer kinds-of-coins)
+                                      amount))
+    (do ((vec-inner (make-vector (+ amount 1)))
+         (a 0 (+ a 1)))
+      ((> a amount) (vector-set! vec-outer k vec-inner))
+      (cond ((= k 0) (vector-set! vec-inner a 0))
+            ((= a 0) (vector-set! vec-inner a 1))
+            (else
+              (if (< a (first-denomination k))
+                (vector-set! vec-inner a (vector-ref
+                                              (vector-ref vec-outer (- k 1))
+                                              a))
+                (vector-set! vec-inner a (+ (vector-ref
+                                              (vector-ref vec-outer (- k 1))
+                                              a)
+                                            (vector-ref
+                                              vec-inner
+                                              (- a (first-denomination k))))
+                             )))))))
+
+;; 打印出币值从0到n(n是大于0的整数)的换零钱方式数的序列
+(define (vec-cc amount)
+  (do ((vec (make-vector (+ amount 1)))
+       (i 0 (+ i 1)))
+    ((> i amount) vec)
+    (vector-set! vec i (count-change i))))
+
+(define (display-change amount)
+  (display (cc amount 0))
+  (display "    ")
+  (display (cc amount 1))
+  (display "    ")
+  (display (cc amount 2))
+  (display "    ")
+  (display (cc amount 3))
+  (display "    ")
+  (display (cc amount 4))
+  (display "    ")
+  (display (cc amount 5))
+  (newline)
+  (if (< amount 101)
+    (display-change (+ amount 1))))
+
+(define (display-change-with-head)
+  (display "n0")
+  (display "   ")
+  (display "n1")
+  (display "   ")
+  (display "n2")
+  (display "   ")
+  (display "n3")
+  (display "   ")
+  (display "n4")
+  (display "   ")
+  (display "n5")
+  (newline)
+  (display-change 0))
