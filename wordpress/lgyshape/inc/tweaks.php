@@ -15,7 +15,8 @@
  * @since ShapeLGY 1.0
  */
 function shape_page_menu_args( $args ) {
-    $args['show_home'] = true;
+    if ( ! isset( $args['show_home'] ) )
+        $args['show_home'] = true;
     return $args;
 }
 //add_fliter( 'wp_page_menu_args', 'shape_page_menu_args' );
