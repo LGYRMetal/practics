@@ -17,6 +17,9 @@ get_header(); ?>
 <div id="primary" class="content-area">
     <div id="content" class="site-content">
     <?php if ( have_posts() ) : ?>
+
+        <?php shape_content_nav( 'nav-above' ); ?>
+
         <?php /* Start the Loop */ ?>
         <?php while ( have_posts() ) : the_post(); ?>
             <?php
@@ -27,6 +30,11 @@ get_header(); ?>
             get_template_part( 'content', get_post_format() );
             ?>
         <?php endwhile; ?>
+
+        <?php shape_content_nav( 'nav-below' ); ?>
+
+    <?php else : ?>
+        <?php get_template_part( 'no-results', 'index' ); ?>
     <?php endif; ?>
     </div><!-- #content .site-content -->
 </div><!-- #primary .content-area -->
