@@ -155,10 +155,59 @@ get_header(); ?>
 
                 <footer class="entry-meta">
                     <?php // Comments and trackbacks open
-                          if ( comments_open() && pings_open() ) : ?>
+                    if ( comments_open() && pings_open() ) : ?>
+                        <?php printf(
+                            __( '<a class="comment-link" ' .
+                                'href="#respond" ' .
+                                'title="Post a comment">Post a comment' .
+                                '</a> or leave a trackback: ' .
+                                '<a class="trackback-link" ' .
+                                'href="%s" ' .
+                                'title="Trackback URL for your post" ' .
+                                'rel="trackback">Trackback URL</a>.',
+                                'shape' ),
+                            get_trackback_url()
+                        ); ?>
+                    <?php // Only trackbacks open
+                    elseif ( ! comments_open() && pings_open() ) : ?>
+                        <?php printf(
+                            __( 'Comments are closed, but you can leave ' .
+                                'a trackback: <a ' .
+                                'class="trackback-link" ' .
+                                'href="%s" ' .
+                                'title="Trackback URL for your post" ' .
+                                'rel="trackback">Trackback URL</a>.',
+                                'shape' ),
+                            get_trackback_url()
+                        ); ?>
+                    <?php // Only comments open
+                    elseif( comments_open() && ! pings_open() ) : ?>
+                        <?php _e(
+                            'Trackbacks are closed, but you can <a ' .
+                            'class="comment-link" href="#respond" ' .
+                            'title="Post a comment">post a comment</a>.',
+                            'shape'
+                        ); ?>
+                    <?php // Comments and trackbacks closed
+                    elseif( ! comments_open() && ! pings_open() ) : ?>
+                        <?php _e(
+                            'Both comments and trackbacks are currently ' .
+                            'closed.',
+                            'shape'
+                        ); ?>
                     <?php endif; ?>
+
+                    <?php edit_post_link(
+                        __( 'Edit', 'shape' ),
+                        ' <span class="edit-link">',
+                        '</span>'
+                    ); ?>
                 </footer><!-- .entry-meta -->
-            </article><!-- post-<?php the_ID(); ?> -->
-        <?php endwhile; ?>
+            </article><!-- #post-<?php the_ID(); ?> -->
+
+            <?php comments_template(); ?>
+        <?php endwhile; // end of the loop. ?>
     </div><!-- #content .site-content -->
 </div><!-- #primary .content-area .image-attachment -->
+
+<?php get_footer(); ?>
