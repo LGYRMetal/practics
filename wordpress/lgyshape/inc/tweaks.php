@@ -19,7 +19,7 @@ function shape_page_menu_args( $args ) {
         $args['show_home'] = true;
     return $args;
 }
-//add_fliter( 'wp_page_menu_args', 'shape_page_menu_args' );
+add_filter( 'wp_page_menu_args', 'shape_page_menu_args' );
 
 /**
  * Adds custom classes to the array of body classes.
