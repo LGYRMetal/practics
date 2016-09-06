@@ -9,6 +9,16 @@
         ((even? n) (my-expt (square b) (/ n 2)))
         (else (* b (my-expt b (- n 1))))))
 
+;;;;; 如果在my-expt-iter中不使用my-expt,而是my-expt-iter,那么在even?这步a的
+;;;;; 值就有关系了,只能是a,下面是使用my-expt-iter的版本.
+(define (my-expt-3 b n)
+  (my-expt-iter-3 b n 1))
+
+(define (my-expt-iter-3 b n a)
+  (cond ((= n 0) a)
+        ((even? n) (my-expt-iter-3 (square b) (/ n 2) a))
+        (else (my-expt-iter-3 b (- n 1) (* a b)))))
+
 ; version 1
 (define (my-expt-1 b n)
   (my-expt-iter-1 b n 1))
