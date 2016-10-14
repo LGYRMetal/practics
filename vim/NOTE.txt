@@ -1,0 +1,17 @@
+2016-10-14
+1. syntax file
+    runtimepath的值记录vim配置文件的路径信息
+    使用set runtimpath可以查看他的值
+
+2. syntax file
+    用户可以添加自己的功能到
+        ~/.vim/syntax/python.vim
+    如果添加多个文件可以添加到
+        ~/.vim/syntax/python/one.vim
+        ~/.vim/syntax/python/two.vim
+    如果想替换vim自带的可以添加到
+        ~/.vim/after/python.vim
+
+3. indent file
+    用户可以添加自己的indent file到
+        ~/.vim/indent/python.vim
