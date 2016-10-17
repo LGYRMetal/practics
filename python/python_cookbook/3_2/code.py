@@ -26,7 +26,3 @@ for tag, *args in records:
         do_foo(*args)
     elif tag == 'bar':
         do_bar(*args)
-
-a = {
-
-}

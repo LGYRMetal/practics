@@ -15,7 +15,7 @@ setlocal nolisp		" Make sure lisp indenting doesn't supersede us
 setlocal autoindent	" indentexpr isn't much help otherwise
 
 setlocal indentexpr=GetPythonIndent(v:lnum)
-setlocal indentkeys+=<:>,=elif,=except
+setlocal indentkeys+=<:>,=elif,=except,0(,0),0[,0]
 
 " Only define the function once.
 if exists("*GetPythonIndent")
@@ -23,18 +23,6 @@ if exists("*GetPythonIndent")
 endif
 let s:keepcpo= &cpo
 set cpo&vim
-
-function! SkipPythonBlanksAndComments(startline)
-  let lnum = a:startline
-  while lnum > 1
-    let lnum = prevnonblank(lnum)
-    if getline(lnum) =~ '^\s*#'
-      let lnum = lnum - 1
-    else
-      break
-  endwhile
-  return lnum
-endfunction
 
 " Come here when loading the script the first time.
 
@@ -48,7 +36,7 @@ function GetPythonIndent(lnum)
     if a:lnum > 1 && getline(a:lnum - 2) =~ '\\$'
       return indent(a:lnum - 1)
     endif
-    return indent(a:lnum - 1) + (exists("g:pyindent_continue") ? eval(g:pyindent_continue) : (shiftwidth() * 1)) " modified from 2 to 1
+    return indent(a:lnum - 1) + (exists("g:pyindent_continue") ? eval(g:pyindent_continue) : (shiftwidth() * 2))
   endif
 
   " If the start of the line is in a string don't change the indent.
@@ -82,19 +70,6 @@ function GetPythonIndent(lnum)
     let plnumstart = plnum
   endif
 
-  " When the line starts with )/]/}, try aligning it with the matching (/[/{
-"  if getline(v:lnum) =~ '^\s*\[)]}\].*'
-"    call cursor(v:lnum, 1)
-"    silent normal %
-"    let lnum = line('.')
-"    if lnum < v:lnum
-"      while lnum > 1
-"        let next_lnum = SkipPythonBlanksAndComments(lnum - 1)
-"        let lnum = prevnonblank(next_lnum)
-"      endwhile
-"      return indent(lnum)
-"    endif
-
   " When inside parenthesis: If at the first line below the parenthesis add
   " two 'shiftwidth', otherwise same as previous line.
   " i = (a
@@ -106,23 +81,19 @@ function GetPythonIndent(lnum)
 	  \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
 	  \ . " =~ '\\(Comment\\|Todo\\|String\\)$'")
   if p > 0
+    " When the line starts with ) or ] or }, try aligning it with the
+    " matching ( or [ or {
+    if getline(a:lnum) =~ '^\s*)\|}\|\].*'
+      return indent(p)
+    endif
     if p == plnum
-      " When the start is inside parenthesis, only indent one 'shiftwidth'.
-      let pp = searchpair('(\|{\|\[', '', ')\|}\|\]', 'bW',
-	  \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-	  \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-	  \ . " =~ '\\(Comment\\|Todo\\|String\\)$'")
-      if pp > 0
 	return indent(plnum) + (exists("g:pyindent_nested_paren") ? eval(g:pyindent_nested_paren) : shiftwidth())
-      endif
-      return indent(plnum) + (exists("g:pyindent_open_paren") ? eval(g:pyindent_open_paren) : (shiftwidth() * 1)) " modified from 2 to 1
     endif
     if plnumstart == p
       return indent(plnum)
     endif
     return plindent
   endif
-
 
   " Get the line and remove a trailing comment.
   " Use syntax highlighting attributes when possible.
