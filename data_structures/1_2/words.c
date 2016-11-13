@@ -11,7 +11,7 @@ const char LETTER[SIDE_LENGTH][SIDE_LENGTH] = {
     {'f', 'g', 'd', 't'},
 };
 
-const char* WORDS[] = {"this", "two", "fat", "that", "it", "siht", "gaah", "taht", "taf"};
+const char* WORDS[] = {"this", "two", "fat", "that", "it", "siht", "gaah", "taht", "taf", "st"};
 
 void exists(const char* word);
 
@@ -192,9 +192,9 @@ void exists(const char* word)
         if(start)
         {
             int sir = (int)start - (int)diagonal + 1;
+            int sic = SIDE_LENGTH - ((int)start - (int)diagonal);
             int eir = sir + len - 1;
-            int sic = sir - (sir - eir);
-            int eic = sir - (sir - eir);
+            int eic = SIDE_LENGTH - ((int)start - (int)diagonal + len - 1);
             printf("%s\t", word);
             printf("start: (%d, %d)\t", sir, sic);
             printf("end: (%d, %d)\n", eir, eic);
