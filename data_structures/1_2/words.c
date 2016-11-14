@@ -11,7 +11,7 @@ const char LETTER[SIDE_LENGTH][SIDE_LENGTH] = {
     {'f', 'g', 'd', 't'},
 };
 
-const char* WORDS[] = {"this", "two", "fat", "that", "it", "siht", "gaah", "taht", "taf", "st"};
+const char* WORDS[] = {"this", "two", "fat", "that", "it", "siht", "gaah", "taht", "taf", "st", "aa", "dh", "tha"};
 
 void exists(const char* word);
 
@@ -62,10 +62,10 @@ void exists(const char* word)
             start = strstr(row, word);
             if(start)
             {
-                int eir = i + 1;
-                int eic = (int)start - (int)row + 1;
                 int sir = i + 1;
-                int sic = eic + len - 1;
+                int sic = SIDE_LENGTH - ((int)start - (int)row);
+                int eir = i + 1;
+                int eic = SIDE_LENGTH - ((int)start - (int)row + len - 1);
                 printf("%s\t", word);
                 printf("start: (%d, %d)\t", sir, sic);
                 printf("end: (%d, %d)\n", eir, eic);
@@ -108,10 +108,10 @@ void exists(const char* word)
             start = strstr(col, word);
             if(start)
             {
-                int eir = (int)start - (int)col + 1;
-                int eic = i + 1;
-                int sir = eir + len - 1;
+                int sir = SIDE_LENGTH - ((int)start - (int)col);
                 int sic = i + 1;
+                int eir = SIDE_LENGTH - ((int)start - (int)col + len - 1);
+                int eic = i + 1;
                 printf("%s\t", word);
                 printf("start: (%d, %d)\t", sir, sic);
                 printf("end: (%d, %d)\n", eir, eic);
@@ -154,9 +154,10 @@ void exists(const char* word)
         start = strstr(diagonal, word);
         if(start)
         {
-            int sir, sic, eir, eic;
-            eir = eic = (int)start - (int)diagonal + 1;
-            sir = sic = eir + len - 1;
+            int sir = SIDE_LENGTH - ((int)start - (int)diagonal);
+            int sic = SIDE_LENGTH - ((int)start - (int)diagonal);
+            int eir = SIDE_LENGTH - ((int)start - (int)diagonal + len - 1);
+            int eic = SIDE_LENGTH - ((int)start - (int)diagonal + len - 1);
             printf("%s\t", word);
             printf("start: (%d, %d)\t", sir, sic);
             printf("end: (%d, %d)\n", eir, eic);
