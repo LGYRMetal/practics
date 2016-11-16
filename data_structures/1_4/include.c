@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
 
 /*#define MAX_LINE 1000*/
 #define MAX_FILENAME 100
@@ -26,6 +27,31 @@ int getline(char* line, FILE* filename)
     return i;
 }
 */
+
+char* get_full_path(char* top_path, char* filename)
+{
+    DIR *d = opendir(top_path);
+    struct dirent *namelist;
+    char* full_path = malloc(MAX_FILENAME * sizeof(char));
+    strcpy(full_path, top_path);
+
+    while((namelist = readdir(d))) {
+        if(!strcmp(namelist->d_name, filename)) {
+            return top_path;
+        }
+        if(namelist->d_type == DT_DIR &&
+           strcmp(namelist->d_name, ".") &&
+           strcmp(namelist->d_name, "..")) {
+            strcat(full_path, namelist->d_name);
+            strcat(full_path, "/");
+            if(get_full_path(full_path, filename) == NULL) {
+                strcpy(full_path, top_path);
+            }
+        }
+    }
+
+    return NULL;
+}
 
 void get_basename(char* from, char* to, const char end_flag)
 {
@@ -73,6 +99,11 @@ void process_file(const char* filename)
                (int)s1 < (int)s2) {
                 strcat(full_filename, "/usr/include/");
                 get_basename(++s1, basename, '>');
+                full_filename = get_full_path(full_filename, basename);
+                if(!full_filename) {
+                    printf("file not found!\n");
+                    return;
+                }
             }
             else if((s1 = index(line,'"')) &&
                     (s2 = rindex(line, '"')) &&
