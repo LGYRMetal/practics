@@ -10,6 +10,10 @@ bin: $(FILENAME).c Makefile
 run: $(FILENAME)
 	./$(FILENAME)
 
+debug:
+	gcc -DDEBUG -g -o $(FILENAME) $(FILENAME).c
+	gdb $(FILENAME)
+
 .PHONY: clean
 
 clean:
