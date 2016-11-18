@@ -1,0 +1,16 @@
+a.证明：logX < X 对所有的 X>0 成立。
+方法：归纳法
+        X = 1, logX = 0, 那么 logX < X
+        X = 2, logX = 1, 那么 logX < X
+现假设: X 从 1 到 k (k > 1), logX < X 成立，
+那么, logk < k 成立，
+那么，logk + 1 < k + 1 成立，
+因：log2 = 1,则：
+      logk + log2 < k + 1
+根据公式: log(A*B) = logA + logB, 得：
+      log(2*k) < k + 1, 那么：
+      log(k + k) < k + 1
+因：k > 1,根据对数的定义可知,当底数为2时，真数越大,对数的值越大，所以：
+      log(k + 1) < log(k + k)
+所以：log(k + 1) < k + 1
+这样就证明了，logX < X 对所有的 X>0 成立。

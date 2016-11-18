@@ -1,0 +1,7 @@
+b. 证明 log(A^B) = B*logA
+设 x = log(A^B), y = B*logA,那么，根据对数定义,可得：
+
+    2^x = A^B ==>> 2^(x/B) = A
+    y/B = logA ==>> 2^(y/B) = A
+所以，
+    x = y ==> log(A^B) = B*logA
