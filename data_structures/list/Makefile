@@ -1,5 +1,5 @@
 default: list.c
-	gcc -c -o list.o list.c
+	gcc -c *.c
 
 .PHONY: clean
 
