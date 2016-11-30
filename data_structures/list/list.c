@@ -170,3 +170,8 @@ void DeleteList(List L)
         P = Tmp;
     }
 }
+
+int main(void)
+{
+    /* For test */
+}
