@@ -7,5 +7,6 @@
 
 typedef int ElementType;
 #define FatalError  warn
+#define Error       warn
 
 #endif
