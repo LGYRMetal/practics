@@ -1,13 +1,19 @@
 #ifndef _List_H
 #define _List_H
 
-#include "../common.h"
+#include "../../common.h"
 
 struct Node;
 typedef struct Node *PtrToNode;
 typedef PtrToNode List;
 typedef PtrToNode Position;
 
+struct Node {
+    ElementType Element;
+    Position    Next;
+};
+
+List CreateList(void);
 List MakeEmpty(List L);
 int IsEmpty(List L);
 int IsLast(Position P, List L);

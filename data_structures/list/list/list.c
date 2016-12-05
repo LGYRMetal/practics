@@ -1,9 +1,23 @@
 #include "list.h"
 
+/*
 struct Node {
     ElementType Element;
     Position    Next;
 };
+*/
+
+List CreateList(void)
+{
+    List L;
+    L = malloc(sizeof(struct Node));
+    if(L == NULL)
+        FatalError("Out of space!!!");
+
+    L->Next = NULL;
+
+    return L;
+}
 
 /* 我的实现, 不够简练 */
 /*
@@ -169,9 +183,4 @@ void DeleteList(List L)
         free(P);
         P = Tmp;
     }
-}
-
-int main(void)
-{
-    /* For test */
 }
