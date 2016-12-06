@@ -1,11 +1,13 @@
-SOURCE = list.c print_list.c test.c
-OBJ    = list.o print_list.o test.o
+SOURCE = list.c print_list.c test.c PrintLots.c exchange.c
+OBJ    = list.o print_list.o test.o PrintLots.o exchange.o
 BIN    = test
 
 .PHONY: all clean
 
 all:
+	make obj
 	make bin
+	make run
 
 debug: $(SOURCE)
 	gcc -g -c $(SOURCE)
@@ -16,6 +18,9 @@ obj: $(SOURCE)
 
 bin: $(OBJ)
 	gcc -o $(BIN) $(OBJ)
+
+run: $(BIN)
+	./$(BIN)
 
 clean:
 	-rm -f *~ \.*~ $(OBJ) $(BIN)

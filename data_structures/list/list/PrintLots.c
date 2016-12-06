@@ -16,7 +16,7 @@ void PrintLots(List L, List P)
     PL = L;
     PP = P->Next;
     while(PP) {
-        while(i < PP->Element && !IsLast(PL)) {
+        while(i < PP->Element && !IsLast(PL, L)) {
             PL = PL->Next;
             i++;
         }
@@ -25,9 +25,12 @@ void PrintLots(List L, List P)
             printf("%d ", PL->Element);
         else {
             putchar('\n');
-            printf("第二个列表参数中的位置超出了第一个列表参数中的范围\n");
+            printf("第二个列表参数中的位置%d及之后的位置", PP->Element);
+            printf("超出了第一个列表参数中的范围\n");
+            return;
         }
 
         PP = PP->Next;
     }
+    putchar('\n');
 }

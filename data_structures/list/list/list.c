@@ -14,7 +14,7 @@ List CreateList(void)
     if(L == NULL)
         FatalError("Out of space!!!");
 
-    L->Next = NULL;
+    MakeEmpty(L);
 
     return L;
 }
@@ -183,4 +183,21 @@ void DeleteList(List L)
         free(P);
         P = Tmp;
     }
+}
+
+List MakeEmpty(List L)
+{
+    PtrToNode TmpNode;
+
+    if(L == NULL) {
+        Error("Must create list first");
+    }
+
+    while(!IsEmpty(L)) {
+        TmpNode = L->Next;
+        L->Next = TmpNode->Next;
+        free(TmpNode);
+    }
+
+    return L;
 }
