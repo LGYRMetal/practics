@@ -6,7 +6,7 @@
 #include <err.h>
 
 typedef int ElementType;
-#define FatalError  warn
-#define Error       warn
+#define FatalError(err_msg)  (err(-1, err_msg))
+#define Error(err_msg)       (err(-1, err_msg))
 
 #endif

@@ -4,4 +4,4 @@ default: *.c
 .PHONY: clean
 
 clean:
-	rm *~ \.*~
+	-rm -f *~ \.*~
