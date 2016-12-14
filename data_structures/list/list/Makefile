@@ -1,5 +1,7 @@
-SOURCE = list.c print_list.c test.c PrintLots.c exchange.c
-OBJ    = list.o print_list.o test.o PrintLots.o exchange.o
+SOURCE = list.c print_list.c test.c PrintLots.c exchange.c intersection.c
+SOURCE += union.c
+OBJ    = list.o print_list.o test.o PrintLots.o exchange.o intersection.o
+OBJ    += union.o
 BIN    = test
 
 .PHONY: all clean

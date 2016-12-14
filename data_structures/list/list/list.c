@@ -201,3 +201,32 @@ List MakeEmpty(List L)
 
     return L;
 }
+
+/* 去除列表中重复的元素(L->Element重复) */
+List DeDuplication(List L)
+{
+    Position P1, P2, Tmp;
+
+    if(IsEmpty(L)) {
+        Error("Empty list");
+    }
+
+    Tmp = NULL;
+    P1 = L->Next;
+    while(!IsLast(P1, L)) {
+        P2 = P1->Next;
+        while(P2) {
+            if(P1->Element == P2->Element) {
+                Tmp = P2;
+                P2 = P2->Next;
+                free(Tmp);
+                Tmp = NULL;
+            }
+            P2 = P2->Next;
+        }
+
+        P1 = P1->Next;
+    }
+
+    return L;
+}
