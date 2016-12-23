@@ -1,17 +1,29 @@
-BIN = Approch_1 Approch_2
+BIN = Approach_1 Approach_2 Approach_3 Approach_4
 
-Approch_1: Approch_1.c
-	gcc Approch_1.c -o Approch_1
+1_Approach: Approach_1.c
+	gcc Approach_1.c -o Approach_1
 
-Approch_2: Approch_2.c
-	gcc Approch_2.c -o Approch_2
+2_Approach: Approach_2.c
+	gcc Approach_2.c -o Approach_2
 
-debug_Approch_1: Approch_1.c
-	gcc -g Approch_1.c -o Approch_1
+3_Approach: Approach_3.c
+	gcc Approach_3.c -o Approach_3
 
-debug_Approch_2: Approch_2.c
-	gcc -g Approch_2.c -o Approch_2
+4_Approach: Approach_4.c
+	gcc Approach_4.c -o Approach_4
 
+debug1_Approach: Approach_1.c
+	gcc -g Approach_1.c -o Approach_1
+
+debug2_Approach: Approach_2.c
+	gcc -g Approach_2.c -o Approach_2
+
+debug3_Approach: Approach_3.c
+	gcc -g Approach_3.c -o Approach_3
+
+debug4_Approach: Approach_4.c
+	gcc -g Approach_4.c -o Approach_4
+	
 .PHONY: clean
 
 clean:
