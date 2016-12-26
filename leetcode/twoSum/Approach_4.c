@@ -8,8 +8,6 @@
 #include <string.h>
 #include <err.h>
 
-#define NOTFOUND -1
-
 typedef char bool;
 typedef unsigned int position;
 struct hashTbl;
@@ -90,7 +88,7 @@ hashTable initializeTable(unsigned int tableSize)
 
 position find(int key, hashTable h)
 {
-    position currentPos = NOTFOUND;
+    position currentPos;
     int collisionNum = 0;
 
     currentPos = hash(key, h->tableSize);
@@ -129,7 +127,8 @@ int* twoSum(int* nums, int numsSize, int target) {
     insert(nums[0], 0, h);
     for(int i = 1; i < numsSize; i++) {
         complement = target - nums[i];
-        if((p = find(complement, h)) == NOTFOUND) {
+        p = find(complement, h);
+        if((h->theCells[p].info) == EMPTY) {
             insert(nums[i], i, h);
         }
         else {
