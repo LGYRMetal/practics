@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <err.h>
 
 int hammingDistance(int x, int y)
 {
