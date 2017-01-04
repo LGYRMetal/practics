@@ -10,7 +10,7 @@
 char** fizzBuzz(int n, int* returnSize)
 {
     int i;
-    char** returnArray = malloc(*returnSize = n * sizeof(char*));
+    char** returnArray = malloc(n * sizeof(char*));
     if(returnArray == NULL) {
         err(-1, "malloc: returnArray: out of space!!!");
     }
@@ -18,22 +18,40 @@ char** fizzBuzz(int n, int* returnSize)
     for(i = 0; i < n; i++) {
         if((i+1) % 3 == 0 && (i+1) % 5 == 0) {
             returnArray[i] = malloc(sizeof("FizzBuzz"));
+            if(returnArray[i] == NULL) {
+                err(-1, "malloc: returnArray[i]: out of space!!!");
+            }
             strcpy(returnArray[i], "FizzBuzz");
         }
         else if((i+1) % 3 == 0) {
             returnArray[i] = malloc(sizeof("Fizz"));
+            if(returnArray[i] == NULL) {
+                err(-1, "malloc: returnArray[i]: out of space!!!");
+            }
             strcpy(returnArray[i], "Fizz");
         }
         else if((i+1) % 5 == 0) {
             returnArray[i] = malloc(sizeof("Buzz"));
+            if(returnArray[i] == NULL) {
+                err(-1, "malloc: returnArray[i]: out of space!!!");
+            }
             strcpy(returnArray[i], "Buzz");
         }
         else {
-            returnArray[i] = malloc(sizeof(char[j]));
+            int j = 1; /* digit number of interger */
+            int tmp = i + 1;
+            while((tmp /= 10) != 0) {
+                j++;
+            }
+            returnArray[i] = malloc(sizeof(char) * (j+1));
+            if(returnArray[i] == NULL) {
+                err(-1, "malloc: returnArray[i]: out of space!!!");
+            }
             sprintf(returnArray[i], "%d", i+1);
         }
     }
 
+    *returnSize = n;
     return returnArray;
 }
 
@@ -50,6 +68,7 @@ int main()
     }
     printf("\t%s\n", returnArray[i]);
     printf("]\n");
+    printf("%d\n", returnSize);
 
     return 0;
 }
