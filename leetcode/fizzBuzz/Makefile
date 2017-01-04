@@ -1,7 +1,10 @@
-BIN = Approach_1 Approach_2 Approach_3 Approach_4
+BIN = Approach_1 Approach_2 Approach_3 Approach_4 Approach_1_clear
 
 1_Approach: Approach_1.c
 	gcc Approach_1.c -o Approach_1
+
+1_clear_Approach: Approach_1.c
+	gcc Approach_1_clear.c -o Approach_1_clear
 
 2_Approach: Approach_2.c
 	gcc Approach_2.c -o Approach_2
