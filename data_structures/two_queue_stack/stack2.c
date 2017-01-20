@@ -5,7 +5,7 @@ STACK-EMPTY(S)
         return TRUE
     return FALSE
 
-/* O() */
+/* O(N) */
 PUSH(S, x)
     if Q1.head != Q1.tail /* 栈元素在Q1中 */
         if (Q1.head == 1 && Q1.tail == Q1.length) || (Q1.head == Q1.tail+1)
@@ -38,3 +38,32 @@ PUSH(S, x)
     else /* 空栈, 这种情况下Q1默认为栈元素，Q2默认为缓冲区 */
         ENQUEUE(Q1, x)
         S.top = Q1.head
+
+/* O(N) */
+POP(S)
+    if Q1.head != Q1.tail /* 栈元素在Q1中 */
+        if S.top = Q1.head /* 队首是栈顶 */
+            x = DEQUEUE(Q1)
+        else /* 队尾是栈顶 */
+            if Q1.tail == 1
+                while Q1.head < Q1.length /* 倒栈 */
+                    ENQUEUE(Q2, DEQUEUE(Q1))
+            else /* 倒栈 */
+                while Q1.head != Q1.tail-1
+                    ENQUEUE(Q2, DEQUEUE(Q1))
+            x = DEQUEUE(Q1)
+    else if Q2.head != Q2.tail /* 栈元素在Q2中 */
+        if S.top = Q2.head /* 栈元素在Q2中 */
+            x = DEQUEUE(Q2)
+        else /* 队尾是栈顶 */
+            if Q2.tail == 1
+                while Q2.head < Q1.length /* 倒栈 */
+                    ENQUEUE(Q1, DEQUEUE(Q2))
+            else /* 倒栈 */
+                while Q2.head != Q2.tail-1
+                    ENQUEUE(Q1, DEQUEUE(Q2))
+            x = DEQUEUE(Q2)
+    else /* 空栈 */
+        error "underflow"
+
+    return x
