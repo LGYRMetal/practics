@@ -2,47 +2,39 @@
 #include <stdlib.h>
 #include <err.h>
 
-typedef struct _cell {
-    int row;
-    int col;
-} cell;
+int dfs(int** grid, int gridRowSize, int gridColSize, int row, int col)
+{
+    if(row == 0 || col == 0 ||
+       row == gridRowSize-1 || col == gridRowSize-1 ||
+       grid[row][col] == 0) {
+        return 1;
+    }
+    else if(grid[row][col] == -1) {
+        return 0;
+    }
+    else {
+        grid[row][col] = -1;
 
-struct _land {
-    cell* c;
-    int total;
-};
-
-typedef (struct _land)* land;
+        return dfs(grid, gridRowSize, gridColSize, row-1, col) +
+               dfs(grid, gridRowSize, gridColSize, row+1, col) +
+               dfs(grid, gridRowSize, gridColSize,  row, col-1) +
+               dfs(grid, gridRowSize, gridColSize,  row, col+1);
+    }
+}
 
 int islandPerimeter(int** grid, int gridRowSize, int gridColSize)
 {
-    int p = 0; /* Perimeter */
-    land l;
+    int i = 0;
+    int j = 0;
 
-    l = malloc(sizeof(struct _land));
-    if(l == NULL) err(-1, "malloc: l: out of space!");
-
-    l->total = 0;
-    l->c = malloc(gridRowSize * gridColSize * sizeof(struct _cell));
-    if(l->c == NULL) err(-1, "malloc: l->c: out of space!");
-
-    for(int row = 0; row < gridRowSize; row++) {
-        for(int col = 0; col < gridColSize; col++) {
-            if(grid[row][col] == 1) {
-                l->c[0].row = row;
-                l->c[0].col = col;
-                l->total++;
+    while(i < gridRowSize) {
+        while(j < gridColSize) {
+            if(grid[i][j] == 1)
                 break;
-            }
         }
     }
 
-    for(int row = l->c[0].row, int col = l->c[0].col;
-            row < gridRowSize, col < gridColSize;) {
-
-    }
-
-    return p;
+    return dfs(grid, gridRowSize, gridColSize, i, j);
 }
 
 int main()
