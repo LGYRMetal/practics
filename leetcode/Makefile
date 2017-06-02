@@ -34,3 +34,4 @@ debug5_Approach: Approach_5.c
 
 clean:
 	-rm -rf *.o *~ \.*~ *.out $(BIN)
+	-rm -rf __pycache__
