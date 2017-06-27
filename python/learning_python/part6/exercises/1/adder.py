@@ -1,6 +1,12 @@
 #-*- coding: utf-8 -*-
 
 class Adder:
+    def __init__(self, data=[]):
+        self.data = data
+
+    def __add__(self, other):
+        return self.add(self.data, other)
+
     def add(self, x, y):
         print("Not Implemented")
 
