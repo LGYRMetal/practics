@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<project name="employees" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete file=".ant-targets-build.xml">
+            <fileset dir="${basedir}" includes="**/*~ **/*.html"/>
+        </delete>
+    </target>
+
+    <target name="transform">
+        <ant target="clean"/>
+        <java classname="org.apache.xalan.xslt.Process">
+            <arg line="-IN employees.xml -XSL employees.xsl -OUT employees.html"/>
+        </java>
+    </target>
+</project>

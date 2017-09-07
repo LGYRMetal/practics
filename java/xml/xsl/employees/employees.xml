@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="employess.xsl"?>
+
+<!-- 这是公司雇员的信息 -->
+<employees>
+    <employee sn="E-200402100001">
+        <name>张三</name>
+        <age>25</age>
+        <!-- 月薪小于等于2000元的雇员工资，以现金方式发放 -->
+        <monthly_pay mode="cash">1200.00</monthly_pay>
+    </employee>
+
+    <employee sn="E-200402100006">
+        <name>李四</name>
+        <age>28</age>
+        <monthly_pay mode="cash">1600.00</monthly_pay>
+    </employee>
+
+    <employee sn="E-200503220001">
+        <name>王五</name>
+        <age>30</age>
+        <!-- 月薪高于2000元的雇员工资，以信用卡转账的方式发放 -->
+        <monthly_pay mode="credit_card">3500.00</monthly_pay>
+    </employee>
+</employees>
