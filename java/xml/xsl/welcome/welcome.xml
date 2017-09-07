@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="welcome.xsl"?>
+
+<欢迎词>
+    <标题>只是一个欢迎的例子</标题>
+    <内容>你好！欢迎你！</内容>
+</欢迎词>

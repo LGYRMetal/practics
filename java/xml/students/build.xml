@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<project name="DOMStudents" basedir="." default="main">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete><fileset dir="." includes="**/*~,**/*.class"/></delete>
+    </target>
+
+    <target name="cleanxml">
+        <delete file="${basedir}/converted.xml"/>
+    </target>
+
+    <target name="compileDOMStudentsInfo">
+        <javac srcdir="${basedir}/DOM" includes="DOMStudentsInfo.java"/>
+    </target>
+    <target name="runDOMStudentsInfo" depends="compileDOMStudentsInfo">
+        <java classname="DOM.DOMStudentsInfo"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileDOMPrinter">
+        <javac srcdir="${basedir}/DOM" includes="DOMPrinter.java"/>
+    </target>
+    <target name="runDOMPrinter" depends="compileDOMPrinter">
+        <java classname="DOM.DOMPrinter"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileDOMConvert">
+        <javac srcdir="${basedir}/DOM" includes="DOMConvert.java"/>
+    </target>
+    <target name="runDOMConvert" depends="compileDOMConvert">
+        <java classname="DOM.DOMConvert"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileDOMConvert2">
+        <javac srcdir="${basedir}/DOM" includes="DOMConvert2.java"/>
+    </target>
+    <target name="runDOMConvert2" depends="compileDOMConvert2">
+        <java classname="DOM.DOMConvert2"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileSAXPrinter">
+        <javac srcdir="${basedir}/SAX" includes="SAXPrinter.java"/>
+    </target>
+    <target name="runSAXPrinter" depends="compileSAXPrinter">
+        <java classname="SAX.SAXPrinter"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileErrorProcessor">
+        <javac srcdir="${basedir}/SAX" includes="ErrorProcessor.java"/>
+    </target>
+    <target name="runErrorProcessor" depends="compileErrorProcessor">
+        <java classname="SAX.ErrorProcessor"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileStudentLookup">
+        <javac srcdir="${basedir}/SAX" includes="StudentLookup.java"/>
+    </target>
+    <target name="runStudentLookup" depends="compileStudentLookup">
+        <java classname="SAX.StudentLookup">
+            <arg value="sn=02"/>
+        </java>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileJDOMConvert">
+        <javac srcdir="${basedir}/JDOM" includes="*.java"/>
+    </target>
+    <target name="runJDOMConvet" depends="compileJDOMConvert">
+        <java classname="JDOM.JDOMConvert"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileVisitorTest">
+        <javac srcdir="${basedir}/dom4j" includes="*.java"/>
+    </target>
+    <target name="runVisitorTest" depends="compileVisitorTest">
+        <java classname="dom4j.VisitorTest"/>
+        <ant target="clean"/>
+    </target>
+
+    <target name="compileElementHandlerTest">
+        <javac srcdir="${basedir}/dom4j" includes="*.java"/>
+    </target>
+    <target name="runElementHandlerTest"
+        depends="compileElementHandlerTest">
+        <java classname="dom4j.ElementHandlerTest"/>
+        <ant target="clean"/>
+    </target>
+</project>
