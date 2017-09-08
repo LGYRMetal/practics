@@ -10,25 +10,16 @@
     <xsl:template match="employees">
         <body>
             <table border="1">
-                <xsl:apply-templates select="employee" mode="table"/>
+                <xsl:apply-templates/>
             </table>
-            <xsl:apply-templates select="employee" mode="list"/>
         </body>
     </xsl:template>
 
-    <xsl:template match="employee" mode="table">
+    <xsl:template match="employee">
         <tr>
             <td><xsl:value-of select="name"/></td>
             <td><xsl:value-of select="age"/></td>
             <td><xsl:value-of select="monthly_pay"/></td>
         </tr>
-    </xsl:template>
-
-    <xsl:template match="employee" mode="list">
-        <ul>
-            <li><xsl:value-of select="name"/></li>
-            <li><xsl:value-of select="age"/></li>
-            <li><xsl:value-of select="monthly_pay"/></li>
-        </ul>
     </xsl:template>
 </xsl:stylesheet>
