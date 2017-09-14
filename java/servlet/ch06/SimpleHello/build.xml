@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="SimpleHello" basedir=".">
+    <property file="${basedir}/../deploy.properties"/>
+
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete file=".ant-targets-build.xml">
+            <fileset dir="${basedir}" includes="**/*.class"/>
+            <fileset dir="${basedir}/.." includes="**/*~"/>
+            <fileset dir="${web.dir}/.." includes="**/*~"/>
+        </delete>
+    </target>
+
+    <target name="compile">
+        <ant target="clean"/>
+        <javac srcdir="${basedir}" includes="*.java"/>
+    </target>
+
+    <target name="deploy" depends="compile">
+        <move file="${ant.project.name}.class" todir="${web.dir}"/>
+        <exec executable="sh" searchpath="true">
+            <arg value="${tomcat.shutdown}"/>
+        </exec>
+        <exec executable="sh" searchpath="true">
+            <arg value="${tomcat.start}"/>
+        </exec>
+    </target>
+</project>

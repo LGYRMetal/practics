@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <html>
+            <head></head>
+            <xsl:apply-templates/>
+        </html>
+    </xsl:template>
+
+    <xsl:template match="employees">
+        <body>
+            <table border="1">
+                <xsl:apply-templates select="descendant::monthly_pay[attribute::mode='cash']"/>
+            </table>
+        </body>
+    </xsl:template>
+
+    <xsl:template match="monthly_pay">
+        <tr>
+            <td><xsl:value-of select="parent::employee/child::name"/></td>
+            <td><xsl:value-of select="preceding-sibling::age"/></td>
+            <td><xsl:value-of select="self::node()"/></td>
+        </tr>
+    </xsl:template>
+</xsl:stylesheet>
