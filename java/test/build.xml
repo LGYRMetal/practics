@@ -3,7 +3,8 @@
     <target name="clean">
         <defaultexcludes remove="**/*~"/>
         <delete>
-            <fileset dir="${basedir}" includes="**/*~ **/*.class"/>
+            <fileset dir="${basedir}"
+                includes="**/*~ **/*.class **/*.ant*"/>
         </delete>
     </target>
 </project>

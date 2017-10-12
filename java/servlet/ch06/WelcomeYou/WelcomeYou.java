@@ -10,8 +10,9 @@ public class WelcomeYou extends HttpServlet {
         String welcomeInfo = "Welcome you, " + user;
 
         req.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/html; charset=utf-8");
-        resp.setCharacterEncoding("UTF-8");
+        //resp.setContentType("text/html");
+        //resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 
         PrintWriter out = resp.getWriter();
         out.println("<!DOCTYPE html>");
@@ -21,7 +22,8 @@ public class WelcomeYou extends HttpServlet {
         out.println("\t</head>");
         out.println("\t<body>");
         out.println("\t\t" + welcomeInfo);
-        out.println("\t\t<p>请求:" + req.getCharacterEncoding());
+        out.print("\t\t<p>请求:" + req.getCharacterEncoding());
+        out.println("\t" + req.getContentType());
         out.println("\t\t<p>响应:" + resp.getCharacterEncoding());
         out.println("\t</body>");
         out.println("</html>");
