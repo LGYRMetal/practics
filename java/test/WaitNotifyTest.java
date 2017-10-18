@@ -1,7 +1,10 @@
 public class WaitNotifyTest {
     public static void main(String[] args) {
-        Thread t1 = new Thread(new Processor());
-        Thread t2 = new Thread(new Processor());
+        Processor p1 = new Processor();
+        Processor p2 = new Processor();
+
+        Thread t1 = new Thread(p1);
+        Thread t2 = new Thread(p2);
 
         t1.setName("t1");
         t2.setName("t2");
@@ -9,14 +12,15 @@ public class WaitNotifyTest {
         t1.start();
         try{Thread.sleep(1000);} catch(Exception e) {e.printStackTrace();}
         t2.start();
+        try{Thread.sleep(1000);} catch(Exception e) {e.printStackTrace();}
 
         while(true) {
-            synchronized(t2) {
-                t2.notify();
+            synchronized(p1) {
+                p1.notify();
             }
             try{Thread.sleep(1000);} catch(Exception e) {e.printStackTrace();}
-            synchronized(t1) {
-                t1.notify();
+            synchronized(p2) {
+                p2.notify();
             }
         }
     }
