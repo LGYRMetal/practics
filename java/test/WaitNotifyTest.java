@@ -17,11 +17,14 @@ public class WaitNotifyTest {
         while(true) {
             synchronized(p1) {
                 p1.notify();
+                //System.out.println("p1.notify()");
             }
             try{Thread.sleep(1000);} catch(Exception e) {e.printStackTrace();}
             synchronized(p2) {
                 p2.notify();
+                //System.out.println("p2.notify()");
             }
+            try{Thread.sleep(1000);} catch(Exception e) {e.printStackTrace();}
         }
     }
 }
