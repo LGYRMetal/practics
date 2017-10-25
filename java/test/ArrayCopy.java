@@ -11,7 +11,8 @@ public class ArrayCopy {
             System.out.println(dest[i]);
         }
 
-        copy(src, 0, dest, 0, 4);
+        String[] s = new String[1];
+        copy(s, 0, dest, 0, 4);
         for(int i = 0; i < dest.length; i++) {
             System.out.println(dest[i]);
         }
@@ -78,8 +79,10 @@ public class ArrayCopy {
                 }
                 break;
             default:
-                Class c = Class.forName(src.getClass().getName());
-                c.cast(src)
+                Class c = src.getClass();
+                System.out.println(c.isArray());
+                System.out.println(c);
+                System.out.println(c.cast(src));
         }
     }
 }
