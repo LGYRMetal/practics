@@ -6,15 +6,18 @@ public class ArrayCopy {
     public static void main(String[] args) throws Exception {
         int[] src = {1, 2, 3, 4};
         int[] dest = new int[4];
+        //String[] src = {"a", "b", "c", "d"};
+        //String[] dest = new String[4];
 
         for(int i = 0; i < dest.length; i++) {
             System.out.println(dest[i]);
         }
 
-        String[] s = new String[1];
-        copy(s, 0, dest, 0, 4);
+        //String[] s = new String[1];
+        copy(src, 0, dest, 0, 4);
         for(int i = 0; i < dest.length; i++) {
-            System.out.println(dest[i]);
+            System.out.println(dest[i] * 10);
+            //System.out.println(dest[i] + "~");
         }
     }
 
@@ -33,8 +36,8 @@ public class ArrayCopy {
     public static void copy(Object src, int srcPos,
                             Object dest, int destPos, int length)
         throws Exception {
-        if(src == null || dest == null) {
-            throw new NullPointerException("传入的数组是null");
+        if(!src.getClass().isArray() || !dest.getClass().isArray()) {
+            throw new ArrayStoreException("传入的源和目的应该是数组");
         }
 
         switch(src.getClass().getName()) {
@@ -79,17 +82,16 @@ public class ArrayCopy {
                 }
                 break;
             default:
-                Class c = src.getClass();
-                System.out.println(c.isArray());
-                System.out.println(c);
-                System.out.println(c.cast(src));
+                for(int i = 0; i < length; i++) {
+                    ((Object[])dest)[destPos++] = ((Object[])src)[srcPos++];
+                }
         }
     }
 }
 
-class NullPointerException extends Exception {
-    public NullPointerException() {}
-    public NullPointerException(String msg) {
+class ArrayStoreException extends java.lang.ArrayStoreException {
+    public ArrayStoreException() {}
+    public ArrayStoreException(String msg) {
         super(msg);
     }
 }
