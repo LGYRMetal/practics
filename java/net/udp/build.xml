@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="MyChat" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete>
+            <fileset dir="${basedir}" includes="**/*~ **/*.class **/*ant*"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${basedir}"/>
+    </target>
+</project>
