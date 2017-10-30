@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="HelloWorld" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete>
+            <fileset dir="." includes="**/*~ **/*.class **/*ant*"/>
+        </delete>
+    </target>
+</project>
