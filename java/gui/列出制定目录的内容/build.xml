@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Test" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete>
+            <fileset dir="${basedir}" includes="**/*~ **/*.class **/*ant*"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${basedir}" includes="Test.java"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classpath="${basedir}" classname="Test"/>
+    </target>
+</project>

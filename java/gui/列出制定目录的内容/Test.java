@@ -1,41 +1,45 @@
 import java.awt.Button;
+import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Toolkit;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter; import java.awt.event.WindowEvent;
+
+import java.io.File;
 
 public class Test {
-    // Field
-    Button button;
-    Frame frame;
-    TextArea textArea;
-    TextField textField;
+    ///// Field
+    private Button button;
+    private Frame frame;
+    private TextArea textArea;
+    private TextField textField;
 
-    // Constructor
+    ///// Constructor
     public Test() {
         init();
     }
 
-    // Main Method
+    ///// Main Method
     public static void main(String[] args) {
         new Test();
     }
 
-    // Method
+    //// Method
     private void init() {
-        // Create component
+        //// Create component
         button    = new Button("转到");
         frame     = new Frame();
         textArea  = new TextArea(40, 120);
-        textField = new TextField(80);
+        textField = new TextField(114);
 
-        // Set component parameters
-
-        // Frame
+        //// Set component parameters
+        /// Set Frame
         // == Start == Get the Screen Size
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         int screenHeight = toolkit.getScreenSize().height;
@@ -52,12 +56,16 @@ public class Test {
         frame.setLayout(new FlowLayout());
         frame.setVisible(true);
 
-        // Add component to frame 
+        /// Set TextArea
+        textArea.setEditable(false);
+        textArea.setBackground(Color.WHITE);
+
+        //// Add component to frame 
         frame.add(textField);
         frame.add(button);
         frame.add(textArea);
 
-        // Register event
+        //// Register event
         event();
     }
 
@@ -67,5 +75,42 @@ public class Test {
                 System.exit(0);
             }
         });
+
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Clear the TextArea when click the Button first.
+                textArea.setText("");
+
+                String text = textField.getText();
+
+                if("".equals(text)) {
+                    //textArea.setText("请输入目录路径!");
+                    return;
+                }
+
+                File f = new File(text);
+                if(!f.exists()) {
+                    textArea.setText("您输入的目录不存在!");
+                } else if(!f.isDirectory()) {
+                    textArea.setText("您输入的不是目录，请输入目录!");
+                } else {
+                    String[] list = f.list();
+                    for(String item : list) {
+                        textArea.append(item + "\n");
+                    }
+                }
+            }
+        });
+    }
+
+    private void showErrorDialog(
+            Dialog  owner,
+            String  title,
+            boolean modal,
+            String  msg) {
+        // Create component used for ErrorDialog
+        Button button = new Button("确定");
+        Dialog dialog = new dialog(owner, "Test", modal);
+        Lable   lable = new Lable(msg);
     }
 }
