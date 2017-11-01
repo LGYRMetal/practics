@@ -8,7 +8,7 @@
     </target>
 
     <target name="compile" depends="clean">
-        <javac srcdir="${basedir}" includes="Test.java"/>
+        <javac srcdir="${basedir}" includes="Test.java ErrorDialog.java"/>
     </target>
 
     <target name="run" depends="compile">

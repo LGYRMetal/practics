@@ -9,7 +9,10 @@ import java.awt.Toolkit;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter; import java.awt.event.WindowEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import java.io.File;
 
@@ -76,41 +79,50 @@ public class Test {
             }
         });
 
+        textField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    showContents();
+                }
+            }
+        });
+
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Clear the TextArea when click the Button first.
-                textArea.setText("");
-
-                String text = textField.getText();
-
-                if("".equals(text)) {
-                    //textArea.setText("请输入目录路径!");
-                    return;
-                }
-
-                File f = new File(text);
-                if(!f.exists()) {
-                    textArea.setText("您输入的目录不存在!");
-                } else if(!f.isDirectory()) {
-                    textArea.setText("您输入的不是目录，请输入目录!");
-                } else {
-                    String[] list = f.list();
-                    for(String item : list) {
-                        textArea.append(item + "\n");
-                    }
-                }
+                showContents();
             }
         });
     }
 
-    private void showErrorDialog(
-            Dialog  owner,
-            String  title,
-            boolean modal,
-            String  msg) {
-        // Create component used for ErrorDialog
-        Button button = new Button("确定");
-        Dialog dialog = new dialog(owner, "Test", modal);
-        Lable   lable = new Lable(msg);
+    private void showErrMsg(String errMsg) {
+        new ErrorDialog(frame, "Test", true,
+                "确定", errMsg).setVisible(true);
+    }
+
+    private void showContents() {
+        // Clear the TextArea when click the Button first.
+        textArea.setText("");
+
+        String path = textField.getText();
+
+        if("".equals(path)) {
+            //textArea.setText("请输入目录路径!");
+            showErrMsg("请输入目录路径!");
+            return;
+        }
+
+        File f = new File(path);
+        if(!f.exists()) {
+            //textArea.setText("您输入的目录不存在!");
+            showErrMsg("您输入的目录不存在!");
+        } else if(!f.isDirectory()) {
+            //textArea.setText("您输入的不是目录，请输入目录!");
+            showErrMsg("您输入的不是目录，请输入一个目录!");
+        } else {
+            String[] list = f.list();
+            for(String item : list) {
+                textArea.append(item + "\n");
+            }
+        }
     }
 }
