@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="TextEdit" basedir=".">
+    <property name="src" value="${basedir}/src"/>
+    <property name="build" value="${basedir}/build"/>
+
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeEmptyDirs="true">
+            <fileset dir="${basedir}" includes="**/*~ **/*ant*"/>
+            <fileset dir="${build}"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}">
+            <compilerarg line="-d ${build}"/>
+        </javac>
+    </target>
+</project>
