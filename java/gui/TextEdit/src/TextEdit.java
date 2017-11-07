@@ -1,5 +1,6 @@
 package com.lgyrmetal.TextEdit;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.TextArea;
@@ -40,11 +41,13 @@ public class TextEdit extends Frame {
         int x = (screenSize.width - frameWidth) / 2;
         int y = (screenSize.height - frameHeight) / 2;
         setBounds(x, y, frameWidth, frameHeight);
+        setLayout(new CardLayout());
         setVisible(true);
 
         // Add components to main frame
         setMenuBar(menuBar);
         add(textArea);
+        add(new TextArea());
 
         event();
     }
@@ -58,6 +61,6 @@ public class TextEdit extends Frame {
     }
 
     public static void main(String[] args) {
-        new TextEdit("*无标题文档1 - TextEdit");
+        new TextEdit("无标题文档1 - TextEdit");
     }
 }

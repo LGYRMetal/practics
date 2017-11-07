@@ -2,6 +2,7 @@ package com.lgyrmetal.TextEdit;
 
 import java.awt.Menu;
 import java.awt.MenuItem;
+import java.awt.MenuShortcut;
 
 import java.awt.event.KeyEvent;
 
