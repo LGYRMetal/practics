@@ -1,8 +1,11 @@
 package com.lgyrmetal.TextEdit;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.Toolkit;
 
@@ -12,6 +15,9 @@ import java.awt.event.WindowEvent;
 public class TextEdit extends Frame {
     // Field
     MenuBar menuBar;
+    Panel tagPanel;
+    Panel textAreaPanel;
+    Panel bottomPanel;
     TextArea textArea;
 
     // Constructor
@@ -27,7 +33,10 @@ public class TextEdit extends Frame {
     // Method
     private void init() {
         // Create components
-        menuBar = new MenuBar();
+        menuBar = new MenuBar(this);
+        bottomPanel = new Panel();
+        tagPanel = new Panel(new GridLayout());
+        textAreaPanel = new Panel(new CardLayout());
         textArea = new TextArea("", 24, 80, TextArea.SCROLLBARS_NONE);
 
         // Set components parameters
@@ -41,13 +50,22 @@ public class TextEdit extends Frame {
         int x = (screenSize.width - frameWidth) / 2;
         int y = (screenSize.height - frameHeight) / 2;
         setBounds(x, y, frameWidth, frameHeight);
-        setLayout(new CardLayout());
         setVisible(true);
+
+        // Set tagPanel
+        tagPanel.setSize(frameWidth, 80);
+
+        // Add textArea to textAreaPanel
+        textAreaPanel.add(textArea);
+
+        // Set bottemPanel
+        bottomPanel.setSize(frameWidth, 80);
 
         // Add components to main frame
         setMenuBar(menuBar);
-        add(textArea);
-        add(new TextArea());
+        add(tagPanel, BorderLayout.NORTH);
+        add(textAreaPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         event();
     }

@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 
 public class MainMenuFile extends Menu {
     // Field
+    TextEdit textEdit;
+
     MenuItem fileMenuItemNewTag;        // 新建(T), 新建标签
     MenuItem fileMenuItemOpen;          // 打开(O)
     Menu     fileSubMenuRecentlyOpened; // 最精打开(R), 子菜单
@@ -21,24 +23,27 @@ public class MainMenuFile extends Menu {
     MenuItem fileMenuItemQuit;          // 退出(Q)
 
     // Construtor
-    public MainMenuFile() {
+    public MainMenuFile(TextEdit textEdit) {
         super();
+        this.textEdit = textEdit;
         init();
     }
 
-    public MainMenuFile(String label) {
+    public MainMenuFile(TextEdit textEdit, String label) {
         super(label);
+        this.textEdit = textEdit;
         init();
     }
 
-    public MainMenuFile(String label, boolean tearOff) {
+    public MainMenuFile(TextEdit textEdit, String label, boolean tearOff) {
         super(label, tearOff);
+        this.textEdit = textEdit;
         init();
     }
 
     // Method
     private void init() {
-        fileMenuItemNewTag = new FileMenuItemNewTag("新建(N)",
+        fileMenuItemNewTag = new FileMenuItemNewTag(textEdit, "新建(N)",
                 new MenuShortcut(KeyEvent.VK_T));
         //MenuItem fileMenuItemOpen;          // 打开(O)
         //Menu     fileSubMenuRecentlyOpened; // 最精打开(R), 子菜单

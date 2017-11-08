@@ -4,6 +4,8 @@ import java.awt.Menu;
 
 public class MenuBar extends java.awt.MenuBar {
     // Field
+    TextEdit textEdit;
+
     Menu mainMenuFile;
     Menu mainMenuEdit;
     Menu mainMenuView;
@@ -13,9 +15,10 @@ public class MenuBar extends java.awt.MenuBar {
     Menu mainMenuHelp;
 
     // Constructor
-    public MenuBar() {
+    public MenuBar(TextEdit textEdit) {
         this(
-                new MainMenuFile("文件(F)", true),
+                textEdit,
+                new MainMenuFile(textEdit, "文件(F)", true),
                 new MainMenuEdit("编辑(E)"),
                 new MainMenuView("查看(V)"),
                 new MainMenuSearch("搜索(S)"),
@@ -26,6 +29,7 @@ public class MenuBar extends java.awt.MenuBar {
     }
 
     public MenuBar(
+            TextEdit textEdit,
             Menu mainMenuFile,
             Menu mainMenuEdit,
             Menu mainMenuView,
@@ -33,6 +37,7 @@ public class MenuBar extends java.awt.MenuBar {
             Menu mainMenuTool,
             Menu mainMenuDocument,
             Menu mainMenuHelp) {
+        this.textEdit = textEdit;
         this.mainMenuFile = mainMenuFile;
         this.mainMenuEdit = mainMenuEdit;
         this.mainMenuView = mainMenuView;
