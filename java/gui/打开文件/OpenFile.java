@@ -1,6 +1,15 @@
 package com.lgyrmetal;
 
 import java.awt.Toolkit;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import java.io.File;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -53,12 +62,40 @@ public class OpenFile extends JFrame {
         int y = (screenHeight - frameHeight) / 2;
         setBounds(x, y, frameWidth, frameHeight);
         setJMenuBar(menuBar);
+
+        ////// Add textArea to Frame
+        add(textArea);
+
         setVisible(true);
 
         event();
     }
 
     private void event() {
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                System.exit(0);
+            }
+        });
+
+        fileOpen.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.showOpenDialog(null);
+
+                fileChooser.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        try(BufferedReader br =
+                                new BufferedReader(
+                                    new InputStreamReader(
+                                        new FileInputStream(
+                                            selectedFile)))) {
+                                            }
+                    }
+                });
+            }
+        });
     }
 
     public static void main(String[] args) {
