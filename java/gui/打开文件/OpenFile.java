@@ -7,7 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -81,19 +84,35 @@ public class OpenFile extends JFrame {
         fileOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
-                fileChooser.showOpenDialog(null);
+                int returnVal = fileChooser.showOpenDialog(null);
 
-                fileChooser.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        File selectedFile = fileChooser.getSelectedFile();
-                        try(BufferedReader br =
-                                new BufferedReader(
-                                    new InputStreamReader(
-                                        new FileInputStream(
-                                            selectedFile)))) {
-                                            }
+                //fileChooser.addActionListener(new ActionListener() {
+                    //public void actionPerformed(ActionEvent e) {
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    // used to avoid the last empty line
+                    String currentLine = null,
+                           previousLine = null;
+                    File selectedFile = fileChooser.getSelectedFile();
+                    try(BufferedReader br =
+                            new BufferedReader(
+                                new InputStreamReader(
+                                    new FileInputStream(selectedFile)))) {
+                        // used to avoid the last empty line
+                        if((previousLine = br.readLine()) == null)
+                            return;
+                        while((currentLine = br.readLine()) != null) {
+                            // used to avoid the last empty line
+                            textArea.append(previousLine + "\n");
+                            previousLine = currentLine;
+                        }
+                        // used to avoid the last empty line
+                        textArea.append(previousLine);
+                    } catch(Exception exception) {
+                        exception.printStackTrace();
                     }
-                });
+                }
+                    //}
+                //});
             }
         });
     }
