@@ -1,5 +1,6 @@
 package com.lgyrmetal;
 
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class OpenFile extends JFrame {
@@ -26,6 +28,7 @@ public class OpenFile extends JFrame {
     JMenuItem fileOpen,
               fileSave,
               quit;
+    JScrollPane scrollPane;
     JTextArea textArea;
 
     // Constructor
@@ -42,6 +45,7 @@ public class OpenFile extends JFrame {
         fileSave = new JMenuItem("保存(S)");
         quit = new JMenuItem("退出(Q)");
         textArea = new JTextArea();
+        scrollPane = new JScrollPane(textArea);
 
         // Get the screen size
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -49,7 +53,13 @@ public class OpenFile extends JFrame {
         int screenHeight = toolkit.getScreenSize().height;
 
         // Set components
+        //// Set MenuItem
+        fileOpen.setFont(new Font("Serif", Font.PLAIN, 15));
+        fileSave.setFont(new Font("Serif", Font.PLAIN, 15));
+        quit.setFont(new Font("Serif", Font.PLAIN, 15));
+
         //// Set Menu
+        menu.setFont(new Font("Serif", Font.PLAIN, 15));
         menu.add(fileOpen);
         menu.add(fileSave);
         menu.add(quit);
@@ -64,10 +74,12 @@ public class OpenFile extends JFrame {
         int x = (screenWidth - frameWidth) / 2;
         int y = (screenHeight - frameHeight) / 2;
         setBounds(x, y, frameWidth, frameHeight);
+        setFont(new Font("Serif", Font.PLAIN, 15));
         setJMenuBar(menuBar);
+        setTitle("无标题文档");
 
         ////// Add textArea to Frame
-        add(textArea);
+        add(scrollPane);
 
         setVisible(true);
 
@@ -84,11 +96,15 @@ public class OpenFile extends JFrame {
         fileOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                //fileChooser.setFont(new Font("Serif", Font.PLAIN, 15));
                 int returnVal = fileChooser.showOpenDialog(null);
 
                 //fileChooser.addActionListener(new ActionListener() {
                     //public void actionPerformed(ActionEvent e) {
                 if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    // clean the textArea first when open a file
+                    textArea.setText(null);
+
                     // used to avoid the last empty line
                     String currentLine = null,
                            previousLine = null;
@@ -110,6 +126,8 @@ public class OpenFile extends JFrame {
                     } catch(Exception exception) {
                         exception.printStackTrace();
                     }
+                    // set the window title to the opened file's title
+                    setTitle(selectedFile.getName());
                 }
                     //}
                 //});
