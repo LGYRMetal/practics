@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -23,6 +24,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 
 public class OpenFile extends JFrame {
     // Field
@@ -44,9 +46,9 @@ public class OpenFile extends JFrame {
         // Create components
         menu = new JMenu("文件(F)");
         menuBar = new JMenuBar();
-        fileOpen = new JMenuItem("打开(O)");
-        fileSave = new JMenuItem("保存(S)");
-        quit = new JMenuItem("退出(Q)");
+        fileOpen = new JMenuItem("打开(O)", KeyEvent.VK_O);
+        fileSave = new JMenuItem("保存(S)", KeyEvent.VK_S);
+        quit = new JMenuItem("退出(Q)", KeyEvent.VK_Q);
         textArea = new JTextArea();
         scrollPane = new JScrollPane(textArea);
 
@@ -60,9 +62,16 @@ public class OpenFile extends JFrame {
         //fileOpen.setFont(new Font("Serif", Font.PLAIN, 15));
         //fileSave.setFont(new Font("Serif", Font.PLAIN, 15));
         //quit.setFont(new Font("Serif", Font.PLAIN, 15));
+        fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O,
+                    ActionEvent.CTRL_MASK));
+        fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+                    ActionEvent.CTRL_MASK));
+        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+                    ActionEvent.CTRL_MASK));
 
         //// Set Menu
         //menu.setFont(new Font("Serif", Font.PLAIN, 15));
+        menu.setMnemonic(KeyEvent.VK_F);
         menu.add(fileOpen);
         menu.add(fileSave);
         menu.add(quit);
@@ -135,6 +144,12 @@ public class OpenFile extends JFrame {
                 }
                     //}
                 //});
+            }
+        });
+
+        quit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
     }
