@@ -1,5 +1,7 @@
 package com.lgyrmetal;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.Toolkit;
 
@@ -13,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -54,12 +57,12 @@ public class OpenFile extends JFrame {
 
         // Set components
         //// Set MenuItem
-        fileOpen.setFont(new Font("Serif", Font.PLAIN, 15));
-        fileSave.setFont(new Font("Serif", Font.PLAIN, 15));
-        quit.setFont(new Font("Serif", Font.PLAIN, 15));
+        //fileOpen.setFont(new Font("Serif", Font.PLAIN, 15));
+        //fileSave.setFont(new Font("Serif", Font.PLAIN, 15));
+        //quit.setFont(new Font("Serif", Font.PLAIN, 15));
 
         //// Set Menu
-        menu.setFont(new Font("Serif", Font.PLAIN, 15));
+        //menu.setFont(new Font("Serif", Font.PLAIN, 15));
         menu.add(fileOpen);
         menu.add(fileSave);
         menu.add(quit);
@@ -74,12 +77,12 @@ public class OpenFile extends JFrame {
         int x = (screenWidth - frameWidth) / 2;
         int y = (screenHeight - frameHeight) / 2;
         setBounds(x, y, frameWidth, frameHeight);
-        setFont(new Font("Serif", Font.PLAIN, 15));
         setJMenuBar(menuBar);
         setTitle("无标题文档");
 
         ////// Add textArea to Frame
         add(scrollPane);
+        setAllFont(this, new Font("Serif", Font.PLAIN, 15));
 
         setVisible(true);
 
@@ -96,6 +99,7 @@ public class OpenFile extends JFrame {
         fileOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                setAllFont(fileChooser, new Font("Serif", Font.PLAIN, 15));
                 //fileChooser.setFont(new Font("Serif", Font.PLAIN, 15));
                 int returnVal = fileChooser.showOpenDialog(null);
 
@@ -133,6 +137,33 @@ public class OpenFile extends JFrame {
                 //});
             }
         });
+    }
+
+    private void setAllFont(Component comp, Font font) {
+        if(comp instanceof Container) {
+            //System.out.println(comp);
+            Container container = (Container) comp;
+            //int compCount = container.getComponentCount();
+            Component[] compsInContainer = null;
+            if(container instanceof JMenu) {
+                compsInContainer = ((JMenu)container).getMenuComponents();
+            }
+            else {
+                compsInContainer = container.getComponents();
+            }
+
+            for(Component c : compsInContainer) {
+                //if(c instanceof JComponent) {
+                    //System.out.println(c);
+                //    ((JComponent)c).setFont(font);
+                //}
+                c.setFont(font);
+                setAllFont(c, font);
+            }
+        } else {
+            //System.out.println("===" + comp);
+            comp.setFont(font);
+        }
     }
 
     public static void main(String[] args) {
