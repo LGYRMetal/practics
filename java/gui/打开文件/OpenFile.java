@@ -110,7 +110,7 @@ public class OpenFile extends JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 setAllFont(fileChooser, new Font("Serif", Font.PLAIN, 15));
                 //fileChooser.setFont(new Font("Serif", Font.PLAIN, 15));
-                int returnVal = fileChooser.showOpenDialog(null);
+                int returnVal = fileChooser.showOpenDialog(OpenFile.this);
 
                 //fileChooser.addActionListener(new ActionListener() {
                     //public void actionPerformed(ActionEvent e) {
