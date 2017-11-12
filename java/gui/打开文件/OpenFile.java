@@ -28,13 +28,13 @@ import javax.swing.KeyStroke;
 
 public class OpenFile extends JFrame {
     // Field
-    JMenu menu;
-    JMenuBar menuBar;
-    JMenuItem fileOpen,
-              fileSave,
-              quit;
-    JScrollPane scrollPane;
-    JTextArea textArea;
+    private JMenu menu;
+    private JMenuBar menuBar;
+    private JMenuItem fileOpen,
+                      fileSave,
+                      quit;
+    private JScrollPane scrollPane;
+    private JTextArea textArea;
 
     // Constructor
     public OpenFile() {
