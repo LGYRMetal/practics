@@ -155,12 +155,21 @@ public class OpenFile extends JFrame {
                     JFileChooser fileChooser = new JFileChooser();
                     setAllFont(fileChooser,
                                new Font("Serif", Font.PLAIN, 15));
-                    int returnValue =
+                    int fcReturnValue =
                         fileChooser.showSaveDialog(OpenFile.this);
 
-                    if(returnValue == JFileChooser.APPROVE_OPTION) {
+                    if(fcReturnValue == JFileChooser.APPROVE_OPTION) {
                         File saveFile = fileChooser.getSelectedFile();
                         if(saveFile.exists()) {
+                            int odReturnValue =
+                                JOptionPane.showOptionDialog(
+                                        fileChooser,
+                                        "\"" + saveFile.getParent() +
+                                        "\"已存在名为" +
+                                        saveFile.getName() +
+                                        "的文件。替换该文件将覆盖它的内" +
+                                        "容。您想要替换它吗？", null,
+                                        );
                         } else {
                             writeTo(saveFile);
                             OpenFile.this.openedFile = saveFile;
