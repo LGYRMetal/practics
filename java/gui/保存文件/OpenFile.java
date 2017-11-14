@@ -160,6 +160,7 @@ public class OpenFile extends JFrame {
 
                     if(fcReturnValue == JFileChooser.APPROVE_OPTION) {
                         File saveFile = fileChooser.getSelectedFile();
+                        Object[] options = {"替换(R)", "取消(C)"};
                         if(saveFile.exists()) {
                             int odReturnValue =
                                 JOptionPane.showOptionDialog(
@@ -169,6 +170,9 @@ public class OpenFile extends JFrame {
                                         saveFile.getName() +
                                         "的文件。替换该文件将覆盖它的内" +
                                         "容。您想要替换它吗？", null,
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.WARNING_MESSAGE, null,
+                                        options, options[1]
                                         );
                         } else {
                             writeTo(saveFile);
