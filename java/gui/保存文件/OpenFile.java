@@ -24,6 +24,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class OpenFile extends JFrame {
@@ -151,7 +152,7 @@ public class OpenFile extends JFrame {
 
         fileSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(!OpenFile.this.openedFile) {
+                if(OpenFile.this.openedFile == null) {
                     JFileChooser fileChooser = new JFileChooser();
                     setAllFont(fileChooser,
                                new Font("Serif", Font.PLAIN, 15));
@@ -217,6 +218,9 @@ public class OpenFile extends JFrame {
             //System.out.println("===" + comp);
             comp.setFont(font);
         }
+    }
+
+    private void writeTo(File file) {
     }
 
     public static void main(String[] args) {
