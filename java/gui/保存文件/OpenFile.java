@@ -152,18 +152,19 @@ public class OpenFile extends JFrame {
 
         fileSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+				// if OpenFile.this.openedFile is null, this is a new file
                 if(OpenFile.this.openedFile == null) {
                     JFileChooser fileChooser = new JFileChooser();
                     setAllFont(fileChooser,
                                new Font("Serif", Font.PLAIN, 15));
-                    int fcReturnValue =
+                    int fcReturnValue = // fileChooserReturnValue
                         fileChooser.showSaveDialog(OpenFile.this);
 
                     if(fcReturnValue == JFileChooser.APPROVE_OPTION) {
                         File saveFile = fileChooser.getSelectedFile();
                         Object[] options = {"替换(R)", "取消(C)"};
                         if(saveFile.exists()) {
-                            int odReturnValue =
+                            int odReturnValue = // optionDialogReturnValue
                                 JOptionPane.showOptionDialog(
                                         fileChooser,
                                         "\"" + saveFile.getParent() +
@@ -175,12 +176,19 @@ public class OpenFile extends JFrame {
                                         JOptionPane.WARNING_MESSAGE, null,
                                         options, options[1]
                                         );
+
+							// user chosen the YES option
+							if(odReturnValue == YES_OPTION) {
+								writeTo(saveFile);
+							}
                         } else {
                             writeTo(saveFile);
                             OpenFile.this.openedFile = saveFile;
                         }
                     }
                 } else {
+					// else if OpenFile.this.openedFile is not null, this
+					// file is already exit and opened by this editer.
                     writeTo(OpenFile.this.openedFile);
                 }
             }
