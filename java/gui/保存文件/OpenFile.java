@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import javax.swing.JComponent;
@@ -178,7 +179,7 @@ public class OpenFile extends JFrame {
                                         );
 
 							// user chosen the YES option
-							if(odReturnValue == YES_OPTION) {
+							if(odReturnValue == JOptionPane.YES_OPTION) {
 								writeTo(saveFile);
 							}
                         } else {
@@ -229,6 +230,12 @@ public class OpenFile extends JFrame {
     }
 
     private void writeTo(File file) {
+        try(FileWriter fw = new FileWriter(file)) {
+            String contents = textArea.getText();
+            fw.write(contents, 0, contents.length());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
