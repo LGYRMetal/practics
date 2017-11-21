@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -157,7 +158,8 @@ public class OpenFile extends JFrame {
                 if(OpenFile.this.openedFile == null) {
                     JFileChooser fileChooser = new JFileChooser();
                     setAllFont(fileChooser,
-                               new Font("Serif", Font.PLAIN, 15));
+                            new Font("Serif", Font.PLAIN, 15));
+
                     int fcReturnValue = // fileChooserReturnValue
                         fileChooser.showSaveDialog(OpenFile.this);
 
@@ -165,6 +167,7 @@ public class OpenFile extends JFrame {
                         File saveFile = fileChooser.getSelectedFile();
                         Object[] options = {"替换(R)", "取消(C)"};
                         if(saveFile.exists()) {
+                            /*
                             int odReturnValue = // optionDialogReturnValue
                                 JOptionPane.showOptionDialog(
                                         fileChooser,
@@ -178,10 +181,32 @@ public class OpenFile extends JFrame {
                                         options, options[1]
                                         );
 
-							// user chosen the YES option
-							if(odReturnValue == JOptionPane.YES_OPTION) {
-								writeTo(saveFile);
-							}
+                            // user chosen the YES option
+                            if(odReturnValue == JOptionPane.YES_OPTION) {
+                            writeTo(saveFile);
+                            }
+                            */
+                            JOptionPane optionPane = new JOptionPane(
+                                    "\"" + saveFile.getParent() +
+                                    "\"已存在名为" +
+                                    saveFile.getName() +
+                                    "的文件。替换该文件将覆盖它的内" +
+                                    "容。您想要替换它吗？",
+                                    JOptionPane.WARNING_MESSAGE,
+                                    JOptionPane.YES_NO_OPTION, null,
+                                    options, options[1]
+                                    );
+                            JDialog dialog = optionPane.createDialog(
+                                    fileChooser, null);
+                            setAllFont(dialog,
+                                    new Font("Serif", Font.PLAIN, 14));
+                            System.out.println(dialog.size());
+                            dialog.show();
+
+                            Object selectedValue = optionPane.getValue();
+                            if(options[0].equals(selectedValue)) {
+                                writeTo(saveFile);
+                            }
                         } else {
                             writeTo(saveFile);
                             OpenFile.this.openedFile = saveFile;
@@ -233,6 +258,7 @@ public class OpenFile extends JFrame {
         try(FileWriter fw = new FileWriter(file)) {
             String contents = textArea.getText();
             fw.write(contents, 0, contents.length());
+            fw.flush();
         } catch(Exception e) {
             e.printStackTrace();
         }
