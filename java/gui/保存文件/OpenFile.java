@@ -199,7 +199,7 @@ public class OpenFile extends JFrame {
                             JDialog dialog = optionPane.createDialog(
                                     fileChooser, null);
                             setAllFont(dialog,
-                                    new Font("Serif", Font.PLAIN, 14));
+                                    new Font("Serif", Font.PLAIN, 13));
                             System.out.println(dialog.size());
                             dialog.show();
 
