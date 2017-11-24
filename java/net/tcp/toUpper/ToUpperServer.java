@@ -25,6 +25,10 @@ public class ToUpperServer {
                 // 2.通过ServerSocket的accept方法获取连接过来的客户端对象
                 Socket s = ss.accept();
 
+                // 获取客户端ip，并打印客户端信息
+                String ip = s.getInetAddress().getHostAddress();
+                System.out.println(ip + "已连接");
+
                 // 3.获取客户端对象的读取流，读取客户发送过来的数据
                 InputStream in = s.getInputStream();
                 BufferedReader br =
@@ -40,11 +44,14 @@ public class ToUpperServer {
                     //    // 5.关闭客户端链接
                     //    s.close();
                     //} else {
-                        out.write(line.toUpperCase().getBytes());
+                    line = line.toUpperCase();
+                    line += '\n';
+                    out.write(line.getBytes());
                     //}
                 }
                 // 5.关闭客户端链接
                 s.close();
+                System.out.println(ip + "已断开");
             }
         } catch(Exception e) {
             e.printStackTrace();
