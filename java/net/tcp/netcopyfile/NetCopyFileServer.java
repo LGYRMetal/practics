@@ -14,6 +14,9 @@ public class NetCopyFileServer implements Runnable {
     }
 
     public void run() {
+        /*
+         * Deal with every connected Socket
+         */
     }
 
     public static void main(String[] args) {
@@ -24,6 +27,7 @@ public class NetCopyFileServer implements Runnable {
         //    method.
         Socket s = ss.accept();
 
-        // 3. 
+        // 3. Throw the accepted socket to the new thread to deal with.
+        new Thread(new NetCopyFileServer(s)).start();
     }
 }
