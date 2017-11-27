@@ -1,5 +1,10 @@
 package com.lgyremtel;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+
 import java.net.Socket;
 import java.net.ServerSocket;
 
@@ -17,6 +22,7 @@ public class NetCopyFileServer implements Runnable {
         /*
          * Deal with every connected Socket
          */
+        // 1. Get the socket's io stream.
     }
 
     public static void main(String[] args) {
