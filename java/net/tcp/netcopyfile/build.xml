@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="NetCopyFile" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${basedir}" includes="**/*~ **/*ant*"/>
+            <fileset dir="com"/>
+        </delete>
+    </target>
+</project>
