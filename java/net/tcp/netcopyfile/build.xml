@@ -7,4 +7,10 @@
             <fileset dir="com"/>
         </delete>
     </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${basedir}">
+            <compilerarg line="-d ${basedir}"/>
+        </javac>
+    </target>
 </project>
