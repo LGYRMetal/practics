@@ -21,7 +21,7 @@ public class NetCopyFileClient {
         }
 
         String destination = args[1];
-        if(!destination.matches("(((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d))))\\:((6553[0-5])|(655[0-2]\\d)|(65[0-4]\\d{2})|(6[0-4]\\d{3})|(([1-5]\\d{4})|([1-9]\\d{3})|([1-9]\\d{2})|([1-9]?\\d)))")) {
+        if(!destination.matches("(((l|L)(o|O)(c|C)(a|A)(l|L)(h|H)(o|O)(s|S)(t|T))|(((25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))\\.){3}(25[0-5]|2[0-4]\\d|((1\\d{2})|([1-9]?\\d)))))\\:((6553[0-5])|(655[0-2]\\d)|(65[0-4]\\d{2})|(6[0-4]\\d{3})|(([1-5]\\d{4})|([1-9]\\d{3})|([1-9]\\d{2})|([1-9]?\\d)))")) {
             usage("无效的目标IP地址");
             return;
         }
@@ -31,6 +31,8 @@ public class NetCopyFileClient {
         int port = Integer.valueOf(splitDestination[1]).intValue();
 
         // 1. create Client Socket
+System.out.println("file full path name: " + fileName);
+System.out.println("ip: " + ip + ":" + port);
         try(Socket s = new Socket(ip, port)) {
             // 2. Get the io Stream of Socket
             InputStream in = s.getInputStream();
@@ -43,24 +45,31 @@ public class NetCopyFileClient {
             FileInputStream fis = new FileInputStream(fileName);
             int len = 0;
             byte[] buf = new byte[1024];
+System.out.println("Start copy file, please wait~");
             while((len = fis.read(buf, 0, buf.length)) != -1) {
+System.out.println("Coping file...");
                 out.write(buf, 0, len);
             }
-
+            /*
             // 5. Accept feedback if copied failed.
             while((len = in.read(buf, 0, buf.length)) != -1) {
                 System.out.write(buf, 0, len);
             }
+            */
+System.out.println("Coping file success!");
         } catch(Exception e) {
             System.out.println("拷贝文件失败!");
             e.printStackTrace();
         }
+
+        System.exit(0);
     }
 
     private static void usage(String errMsg) {
         String classname = null;
         try {
-            classname = Class.forName("NetCopyFileClient").getName();
+            classname =
+                Class.forName("com.lgyrmetal.NetCopyFileClient").getName();
         } catch(ClassNotFoundException e) {
             e.printStackTrace();
         }

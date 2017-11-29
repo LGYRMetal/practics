@@ -1,4 +1,4 @@
-package com.lgyremtel;
+package com.lgyrmetal;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -23,6 +23,10 @@ public class NetCopyFileServer implements Runnable {
         /*
          * Deal with every connected Socket
          */
+// Print welcome info
+String ip = socket.getInetAddress().getHostAddress();
+System.out.println(ip + " is connected!");
+
         try {
             // 1. Get the socket's InputStream.
             InputStream in = socket.getInputStream();
@@ -30,21 +34,27 @@ public class NetCopyFileServer implements Runnable {
             // 2. Get the file name which is being copied.
             String fileName =
                 new BufferedReader(new InputStreamReader(in)).readLine();
+System.out.println("file name: " + fileName);
 
-            // 3. Get the file content start point.
+            // 3. Skip the file name.
             // Get the bytes length of the file name.
-            int fileNameLen = fileName.getBytes().length;
             // The start of the file content is fileNameLen +
             // "\n".getBytes().length
-            int fileContentStart = fileNameLen + "\n".getBytes().length;
+            long fileNameLen = (fileName + "\n").getBytes().length;
+            in.skip(fileNameLen);
 
             // 4. Read the file content, and output the content to local.
-            byte[] buf = new byte[1024];
-            in.read(buf, fileContentStart,);
-
             FileOutputStream fos = new FileOutputStream(fileName, true);
-            fos.write(buf);
-            fos.flush();
+            byte[] buf = new byte[1024];
+            int len = 0;
+            while((len = in.read(buf, 0, buf.length)) != -1) {
+                fos.write(buf, 0, len);
+                fos.flush();
+            }
+
+            socket.close();
+// Print info
+System.out.println(ip + " is disconnect!");
 
         } catch(Exception e) {
             // 5. return feedback info
@@ -63,12 +73,15 @@ public class NetCopyFileServer implements Runnable {
         try(ServerSocket ss = new ServerSocket(LISTENING_PORT)) {
             // 2. Wait the coming Socket throught the ServerSocket's accept
             //    method.
-            s = ss.accept();
+            while(true) {
+                s = ss.accept();
+
+                // 3. Throw the accepted socket to the new thread to deal
+                // with.
+                new Thread(new NetCopyFileServer(s)).start();
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
-
-        // 3. Throw the accepted socket to the new thread to deal with.
-        new Thread(new NetCopyFileServer(s)).start();
     }
 }
