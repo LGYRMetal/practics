@@ -39,9 +39,8 @@ public class NetCopyFileServer implements Runnable {
             int fileContentStart = fileNameLen + "\n".getBytes().length;
 
             // 4. Read the file content, and output the content to local.
-            int len = in.available();
-            byte[] buf = new byte[len];
-            in.read(buf, fileContentStart, len);
+            byte[] buf = new byte[1024];
+            in.read(buf, fileContentStart,);
 
             FileOutputStream fos = new FileOutputStream(fileName, true);
             fos.write(buf);

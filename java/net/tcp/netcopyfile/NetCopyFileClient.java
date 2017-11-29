@@ -58,10 +58,15 @@ public class NetCopyFileClient {
     }
 
     private static void usage(String errMsg) {
+        String classname = null;
+        try {
+            classname = Class.forName("NetCopyFileClient").getName();
+        } catch(ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         System.out.println(errMsg);
         System.out.println("Usage:");
-        System.out.println("java " +
-                Class.forName("NetCopyFileClient").getName() +
+        System.out.println("java " + classname +
                 " filename" + " destinationIP:port");
     }
 }
