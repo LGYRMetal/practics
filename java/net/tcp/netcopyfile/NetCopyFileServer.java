@@ -1,10 +1,12 @@
 package com.lgyrmetal;
 
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import java.net.Socket;
 import java.net.ServerSocket;
@@ -28,28 +30,39 @@ String ip = socket.getInetAddress().getHostAddress();
 System.out.println(ip + " is connected!");
 
         try {
-            // 1. Get the socket's InputStream.
+            // 1. Get the data source: socket's InputStream.
             InputStream in = socket.getInputStream();
 
-            // 2. Get the file name which is being copied.
+            // 2. Data destination: local file.
+            // Get the file name which is being copied.
             String fileName =
                 new BufferedReader(new InputStreamReader(in)).readLine();
+            PrintStream out = new PrintStream(fileName);
+
 System.out.println("file name: " + fileName);
+            File file = new File(fileName);
+            if(file.exists()) {
+System.out.println("file is already exits!");
+                PrintWriter socketOut =
+                    new PrintWriter(socket.getOutputStream(), true);
+                socketOut.println("文件已存在!");
+System.out.println("file is already exits!");
+                return;
+            }
 
             // 3. Skip the file name.
             // Get the bytes length of the file name.
             // The start of the file content is fileNameLen +
             // "\n".getBytes().length
-            long fileNameLen = (fileName + "\n").getBytes().length;
-            in.skip(fileNameLen);
+            //long fileNameLen = (fileName + "\n").getBytes().length;
+            //in.skip(fileNameLen);
 
-            // 4. Read the file content, and output the content to local.
-            FileOutputStream fos = new FileOutputStream(fileName, true);
             byte[] buf = new byte[1024];
             int len = 0;
             while((len = in.read(buf, 0, buf.length)) != -1) {
-                fos.write(buf, 0, len);
-                fos.flush();
+System.out.println("Writing file content!");
+                out.write(buf, 0, len);
+                out.flush();
             }
 
             socket.close();
@@ -57,9 +70,10 @@ System.out.println("file name: " + fileName);
 System.out.println(ip + " is disconnect!");
 
         } catch(Exception e) {
-            // 5. return feedback info
-            try(OutputStream out = socket.getOutputStream()) {
-                out.write("拷贝文件到服务器失败!".getBytes());
+            // 4. return feedback info
+            try(PrintWriter socketOut =
+                    new PrintWriter(socket.getOutputStream(), true)) {
+                socketOut.println("拷贝文件到服务器失败!");
             } catch(Exception eInner) {
                 eInner.printStackTrace();
             }

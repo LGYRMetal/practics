@@ -1,7 +1,10 @@
 package com.lgyrmetal;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import java.net.Socket;
@@ -14,8 +17,8 @@ public class NetCopyFileClient {
             return;
         }
 
-        String fileName = args[0];
-        if(fileName.isEmpty()) {
+        String filePath = args[0];
+        if(filePath.isEmpty()) {
             usage("无效的文件名!");
             return;
         }
@@ -31,18 +34,23 @@ public class NetCopyFileClient {
         int port = Integer.valueOf(splitDestination[1]).intValue();
 
         // 1. create Client Socket
-System.out.println("file full path name: " + fileName);
+System.out.println("file full path name: " + filePath);
 System.out.println("ip: " + ip + ":" + port);
         try(Socket s = new Socket(ip, port)) {
+            File file = new File(filePath);
+            String fileName = file.getName();
+
             // 2. Get the io Stream of Socket
-            InputStream in = s.getInputStream();
+            BufferedReader socketIn =
+                new BufferedReader(
+                        new InputStreamReader(s.getInputStream()));
             OutputStream out = s.getOutputStream();
 
             // 3. Send the file name first.
             out.write((fileName + "\n").getBytes());
 
             // 4. Prepare file content, and then send data.
-            FileInputStream fis = new FileInputStream(fileName);
+            FileInputStream fis = new FileInputStream(file);
             int len = 0;
             byte[] buf = new byte[1024];
 System.out.println("Start copy file, please wait~");
@@ -50,12 +58,11 @@ System.out.println("Start copy file, please wait~");
 System.out.println("Coping file...");
                 out.write(buf, 0, len);
             }
-            /*
             // 5. Accept feedback if copied failed.
-            while((len = in.read(buf, 0, buf.length)) != -1) {
-                System.out.write(buf, 0, len);
+            String line = null;
+            while((line = socketIn.readLine()) != null) {
+                System.out.println(line);
             }
-            */
 System.out.println("Coping file success!");
         } catch(Exception e) {
             System.out.println("拷贝文件失败!");
