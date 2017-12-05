@@ -22,12 +22,16 @@ public class Client {
         PrintWriter socketOut =
             new PrintWriter(s.getOutputStream(), true)) {
             // 4. 处理业务逻辑
-            //   1) 打印客户端提示信息
-            System.out.print("用户名: ");
-            //   2) 发送用户键盘输入
-            socketOut.println(brIn.readLine());
-            //   3) 打印服务器的反馈信息
-            System.out.println(socketIn.readLine());
+            String feedback = null;
+
+            do {
+                //   1) 打印客户端提示信息
+                System.out.print("用户名: ");
+                //   2) 发送用户键盘输入
+                socketOut.println(brIn.readLine());
+                //   3) 打印服务器的反馈信息
+                System.out.println(socketIn.readLine());
+            } while((feedback = socketIn.readLine()) != null);
         } catch(Exception e) {
             e.printStackTrace();
         }

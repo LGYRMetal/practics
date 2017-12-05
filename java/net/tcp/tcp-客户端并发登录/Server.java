@@ -46,17 +46,27 @@ public class Server implements Runnable {
         PrintWriter socketOut =
             new PrintWriter(s.getOutputStream(), true);) {
             // 5. 处理业务逻辑
-            //   1) 接收客户端输入
-            String username = socketIn.readLine();
-            //   2) 判断客户端输入是否存在于"user.txt"中
-            if(exists(username)) {
-                System.out.println(username + "已登录");
-                socketOut.println(username + "欢迎光临");
-            } else {
-                System.out.println(username + "尝试登录");
-                socketOut.println("用户\"" + username + "\"不存在");
+            int counter = 3;    // 最多就输入3次
+            while(counter-- > 0) {
+                //   1) 接收客户端输入
+                String username = socketIn.readLine();
+                //   2) 判断客户端输入是否存在于"user.txt"中
+                if(exists(username)) {
+                    System.out.println(username + "已登录");
+                    socketOut.println(username + "欢迎光临");
+                    s.shutdownOutput();
+                    break;
+                } else {
+                    System.out.println(username + "尝试登录");
+                    socketOut.println("用户\"" + username + "\"不存在" +
+                            "请重新输入, 您还有" + counter + "次机会");
+                    // 解决客户端3次输错后还多让输一次
+                    if(counter > 0)
+                        socketOut.println(counter);
+                    else
+                        s.shutdownOutput();
+                }
             }
-
             s.close();
         } catch(Exception e) {
             e.printStackTrace();
