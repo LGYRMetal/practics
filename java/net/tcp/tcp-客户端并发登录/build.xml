@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Login" basedir=".">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${basedir}" includes="**/*~ **/*ant* **/*.class"/>
+            <fileset dir="com"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${basedir}">
+            <compilerarg line="-d ${basedir}"/>
+        </javac>
+    </target>
+</project>
