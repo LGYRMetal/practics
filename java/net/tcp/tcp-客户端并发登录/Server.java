@@ -50,6 +50,10 @@ public class Server implements Runnable {
             while(counter-- > 0) {
                 //   1) 接收客户端输入
                 String username = socketIn.readLine();
+                if(username == null || "null".equals(username)) {
+                    break;
+                }
+
                 //   2) 判断客户端输入是否存在于"user.txt"中
                 if(exists(username)) {
                     System.out.println(username + "已登录");
@@ -58,7 +62,7 @@ public class Server implements Runnable {
                     break;
                 } else {
                     System.out.println(username + "尝试登录");
-                    socketOut.println("用户\"" + username + "\"不存在" +
+                    socketOut.println("用户\"" + username + "\"不存在," +
                             "请重新输入, 您还有" + counter + "次机会");
                     // 解决客户端3次输错后还多让输一次
                     if(counter > 0)
