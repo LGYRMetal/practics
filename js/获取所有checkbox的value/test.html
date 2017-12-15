@@ -4,10 +4,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         
         <script type="text/javascript">
-            
+            function getCheckboxValue() {
+                var checkbox = document.getElementsByName("insterest");
+                for(i = 0; i < checkbox.length; i++) {
+                    alert(checkbox[i].value);
+                }
+            }
         </script>
     </head>
-    
+
     <body>
         <input type="checkbox" name="insterest" value="sport"/>
         <input type="checkbox" name="insterest" value="music"/>
