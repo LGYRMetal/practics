@@ -1,0 +1,14 @@
+#!/bin/sh
+if test $# -eq 1; then
+    if test $1 = "start" -o $1 = "stop"; then
+        case $1 in
+            start) ARG=one$1;;
+            stop)  ARG=$1;;
+        esac
+        /usr/local/etc/rc.d/kdm4 ${ARG}
+    else
+        echo "The argument only can be \"start\" or \"stop\"!";
+    fi
+else
+    echo "I need ONLY ONE argument: \"start\" or \"stop\"";
+fi
