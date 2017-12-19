@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>checkbox的全选和取消全选</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <script type="text/javascript">
+            function selectAllOrCanel() {
+                var selectCheckbox = document.getElementById("select");
+                var interests = document.getElementsByName("interest");
+                /*
+                for(var i = 0; i < interests.length; i++) {
+                    interests[i].checked = selectCheckbox.checked;
+                }
+                */
+                for(var i in interests) {
+                    interests[i].checked = selectCheckbox.checked;
+                }
+
+                if(selectCheckbox.checked)
+                    selectCheckbox.nextSibling.textContent = "取消全选";
+                else
+                    selectCheckbox.nextSibling.textContent = "全选";
+            }
+        </script>
+    </head>
+
+    <body>
+        <input type="checkbox" name="interest" value="sport"/>运动<br/>
+        <input type="checkbox" name="interest" value="music"/>音乐<br/>
+        <input type="checkbox" name="interest" value="food"/>美食<br/>
+        <input type="checkbox" name="interest" value="sleep"/>睡觉<br/>
+        <input type="checkbox" name="interest" value="shopping"/>购物<br/>
+        <input type="checkbox" id="select" onclick="selectAllOrCanel()"/>全选
+    </body>
+</html>

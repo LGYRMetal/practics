@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>表单验证</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <script type="text/javascript">
+            function checkUsername() {
+                var username = document.getElementById("username");
+                if(!isValid(username.value)) {
+                    document.getElementById("errMsgOfUername").innerHTML = "无效的用户名";
+                }
+            }
+
+            function isValid(username) {
+            }
+        </script>
+    </head>
+
+    <body>
+        <form name="userForm" method="GET" action="http://localhost:8080/oa/register">
+            用户名<input type="text" id="username" name="username" onblur="checkUername()"/>
+                  <span id="errMsgOfUsername"></span><br/>
+            <input type="submit" value="注册"/>
+        </form>
+    </body>
+</html>
