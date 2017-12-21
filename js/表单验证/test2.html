@@ -1,0 +1,40 @@
+<!--
+    /*
+        验证什么？
+            1、用户名不能为空
+            2、用户名长度6-14位
+            3、密码不能为空
+            4、密码至少6位
+            5、密码和确认密码必须一致
+     */
+-->
+<html>
+    <head>
+        <title>表单验证</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <style type="text/css">
+        </style>
+
+        <script type="text/javascript">
+        </script>
+    </head>
+
+    <body>
+        <form id="userForm" name="userForm" method="GET" action="http://localhost:8080/oa/register.cgi"
+            onsubmit="return checkAll();">
+
+            用户名
+            <input type="text" id="username" name="username" onblur="checkUsername(this.value);"
+                                                             onfocus="clearErrMsg(this);" /><br />
+            密码
+            <input type="password" id="password" name="password" onblur="checkPassword(this.value);"
+                                                                 onfocus="clearErrMsg(this);"/><br />
+            确认密码
+            <input type="password" id="confirmPassword" name="confirmPassword" onblur="checkConfirmPassword();"
+                                                                               onfocus="clearErrMsg(this);" /><br />
+            <input type="submit" />
+
+        </form>
+    </body>
+</html>

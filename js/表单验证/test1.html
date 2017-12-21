@@ -10,14 +10,6 @@
         </style>
 
         <script type="text/javascript">
-<!--
-            function checkUsername() {
-                var username = document.getElementById("username");
-                if(!isValid(username.value)) {
-                    document.getElementById("errMsgOfUername").innerHTML = "无效的用户名";
-                }
-            }
--->
             /* 用户名不能为空；用户名在6-14位之间； */
             var flag = false;
             function checkUsername(username) {
@@ -37,18 +29,21 @@
             }
 
             function submitUserInfo() {
-                return flag;
+                if(flag) {
+                    document.forms["userForm"].method="GET";
+                    document.forms["userForm"].action="http://localhost:8080/oa/register";
+                    document.forms["userForm"].submit();
+                }
             }
         </script>
     </head>
 
     <body>
-        <form name="userForm" method="GET" action="http://localhost:8080/oa/register"
-              onsubmit="return submitUserInfo();">
-            用户名<input type="text" id="username" name="username" onblur="checkUsername(this.value)" 
-                                                                   onfocus="clearErrMsg()"/>
+        <form name="userForm">
+            用户名<input type="text" id="username" name="username" onblur="checkUsername(this.value);"
+                                                                   onfocus="clearErrMsg();"/>
                   <span id="errMsgOfUsername"></span><br/>
-            <input type="submit" value="注册"/>
+            <input type="button" value="注册" onclick="submitUserInfo();"/>
         </form>
     </body>
 </html>
