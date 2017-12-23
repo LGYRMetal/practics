@@ -11,7 +11,8 @@
 <html>
     <head>
         <title>表单验证</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Type"
+			  content="text/html; charset=utf-8" />
 
         <style type="text/css">
             .err_msg {
@@ -34,15 +35,19 @@
 
             function checkUsername(username) {
                 if(username.trim() == "") {
-                    document.getElementById("usernamePromptMsg").innerHTML = "";
-                    document.getElementById("usernameErrMsg").innerHTML = "用户名不能为空";
+                    document.getElementById(
+						"usernamePromptMsg").innerHTML = "";
+                    document.getElementById(
+						"usernameErrMsg").innerHTML = "用户名不能为空";
                     ok = false;
                 }
             }
 
             function clearErrMsg(obj) {
-                var promptMsgSpanElement = document.getElementById(obj.id + "PromptMsg");
-                var errMsgSpanElement = document.getElementById(obj.id + "ErrMsg");
+                var promptMsgSpanElement =
+					document.getElementById(obj.id + "PromptMsg");
+                var errMsgSpanElement =
+					document.getElementById(obj.id + "ErrMsg");
 
                 // 先保存提示信息
                 if(promptMsgSpanElement.textContent != "") {
@@ -58,24 +63,32 @@
     </head>
 
     <body>
-        <form id="userForm" name="userForm" method="GET" action="http://localhost:8080/oa/register.cgi"
-            onsubmit="return checkAll();">
+        <form id="userForm" name="userForm" method="GET"
+            action="http://localhost:8080/oa/register.cgi"
+			onsubmit="return checkAll();">
 
             &emsp;用户名
-            <input type="text" id="username" name="username" onblur="checkUsername(this.value);"
-                                                             onfocus="clearErrMsg(this);" />
-            <span id="usernamePromptMsg" class="prompt_msg">中文、英文、数字、符号或组合，长度[6-14]位</span>
+            <input type="text" id="username" name="username"
+                onblur="checkUsername(this.value);"
+				onfocus="clearErrMsg(this);" />
+            <span id="usernamePromptMsg" class="prompt_msg">
+				中文、英文、数字、符号或组合，长度[6-14]位
+			</span>
             <span id="usernameErrMsg" class="err_msg"></span><br />
 
             &emsp;&emsp;密码
-            <input type="password" id="password" name="password" onblur="checkPassword(this.value);"
-                                                                 onfocus="clearErrMsg(this);"/>
-            <span id="passwordPromptMsg" class="prompt_msg">字母、数字、符号或组合，长度至少6位</span>
+            <input type="password" id="password" name="password"
+                onblur="checkPassword(this.value);"
+				onfocus="clearErrMsg(this);"/>
+            <span id="passwordPromptMsg" class="prompt_msg">
+				字母、数字、符号或组合，长度至少6位
+			</span>
             <span id="passwordErrMsg" class="err_msg"></span><br />
 
             确认密码
-            <input type="password" id="confirmPassword" name="confirmPassword" onblur="checkConfirmPassword();"
-                                                                               onfocus="clearErrMsg(this);" />
+            <input type="password" id="confirmPassword"
+                name="confirmPassword" onblur="checkConfirmPassword();"
+									   onfocus="clearErrMsg(this);" />
             <span id="confirmPasswordErrMsg" class="err_msg"><span><br />
 
             <input type="submit" />
