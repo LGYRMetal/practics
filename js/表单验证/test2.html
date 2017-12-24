@@ -34,15 +34,28 @@
             }
 
             function checkUsername(username) {
-                if(username.trim() == "") {
-                    document.getElementById(
-						"usernamePromptMsg").innerHTML = "";
-                    document.getElementById(
-						"usernameErrMsg").innerHTML = "用户名不能为空";
+				trimUsername = username.trim();
+
+                if(trimUsername == "") {
+                    document.getElementById("usernamePromptMsg").innerHTML =
+						"";
+                    document.getElementById("usernameErrMsg").innerHTML =
+						"用户名不能为空";
+
                     ok = false;
-                }
+				} else if(trimUsername.length < 6 || trimUsername > 14) {
+					document.getElementById("usernamePromptMsg").innerHTML =
+						"";
+					document.getElementById("usernameErrMsg").innerHTML =
+						"用户名必须在[6-14]位之间";
+
+					ok = false;
+				} else {
+					ok = true;
+				}
             }
 
+			var promptMsg = null; // 用来保存原始的提示信息
             function clearErrMsg(obj) {
                 var promptMsgSpanElement =
 					document.getElementById(obj.id + "PromptMsg");
@@ -50,15 +63,19 @@
 					document.getElementById(obj.id + "ErrMsg");
 
                 // 先保存提示信息
-                if(promptMsgSpanElement.textContent != "") {
-                    var promptMsg = promptMsgSpanElement.textContent;
+                if(promptMsgSpanElement.innerHTML != "") {
+                    promptMsg = promptMsgSpanElement.innerHTML;
                 }
 
-                if(errMsgSpanElement.textContent != "") {
-                    promptMsgSpanElement.textContent = promptMsg;
-                    errMsgSpanElement.textContent = "";
+                if(errMsgSpanElement.innerHTML != "") {
+                    promptMsgSpanElement.innerHTML = promptMsg;
+                    errMsgSpanElement.innerHTML = "";
                 }
             }
+
+			function checkAll() {
+				return ok;
+			}
         </script>
     </head>
 
