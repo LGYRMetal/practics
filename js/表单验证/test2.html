@@ -27,14 +27,13 @@
         </style>
 
         <script type="text/javascript">
-            var ok = false; // flag:是否提交表单
-
             String.prototype.trim = function () {
                 return this.replace(/^\s+/, "").replace(/\s+$/, "");
             }
 
             function checkUsername(username) {
-				trimUsername = username.trim();
+                var usernameOK = false;
+				var trimUsername = username.trim();
 
                 if(trimUsername == "") {
                     document.getElementById("usernamePromptMsg").innerHTML =
@@ -42,44 +41,111 @@
                     document.getElementById("usernameErrMsg").innerHTML =
 						"用户名不能为空";
 
-                    ok = false;
+                    usernameOK = false;
 				} else if(trimUsername.length < 6 || trimUsername > 14) {
 					document.getElementById("usernamePromptMsg").innerHTML =
 						"";
 					document.getElementById("usernameErrMsg").innerHTML =
 						"用户名必须在[6-14]位之间";
 
-					ok = false;
+					usernameOK = false;
 				} else {
-					ok = true;
+					usernameOK = true;
 				}
+
+                return usernameOK;
             }
 
-			var promptMsg = null; // 用来保存原始的提示信息
+            function checkPassword(password) {
+                var passwordOK = false;
+                if(password == "") {
+                    document.getElementById("passwordPromptMsg").innerHTML =
+                        "";
+                    document.getElementById("passwordErrMsg").innerHTML =
+                        "密码不能为空";
+                    
+                    passwordOK = false;
+                } else if(password.length < 6) {
+                    document.getElementById("passwordPromptMsg").innerHTML =
+                        "";
+                    document.getElementById("passwordErrMsg").innerHTML =
+                        "密码不能少于6位";
+
+                    passwordOK = false;
+                } else {
+                    passwordOK = true;
+                }
+
+                return passwordOK;
+            }
+
+            function checkConfirmPassword(confirmPassword) {
+                var confirmPasswordOK = false;
+                var password = document.getElementById("password").value;
+
+                if(confirmPassword != password) {
+                    document.getElementById(
+                            "confirmPasswordPromptMsg").innerHTML = "";
+                    document.getElementById(
+                            "confirmPasswordErrMsg").innerHTML =
+                        "两次输入的密码不一致，请重新输入";
+
+                    confirmPasswordOK = false;
+                } else {
+                    confirmPasswordOK = true;
+                }
+
+                return confirmPasswordOK;
+            }
+
+            // for clearErrMsg()
+            var varUsernamePromptMsg = null;
+            var varPasswordPromptMsg = null;
+            var varConfirmPasswordPromptMsg = null;
+            function getAllPromptMsg() {
+                varUsernamePromptMsg =
+                    document.getElementById("usernamePromptMsg").innerHTML;
+                varPasswordPromptMsg =
+                    document.getElementById("passwordPromptMsg").innerHTML;
+                varConfirmPasswordPromptMsg =
+                    document.getElementById(
+                            "confirmPasswordPromptMsg").innerHTML;
+            }
             function clearErrMsg(obj) {
                 var promptMsgSpanElement =
 					document.getElementById(obj.id + "PromptMsg");
                 var errMsgSpanElement =
 					document.getElementById(obj.id + "ErrMsg");
 
-                // 先保存提示信息
-                if(promptMsgSpanElement.innerHTML != "") {
-                    promptMsg = promptMsgSpanElement.innerHTML;
+                if(obj.id == "username") {
+                    promptMsgSpanElement.innerHTML = varUsernamePromptMsg;
                 }
-
-                if(errMsgSpanElement.innerHTML != "") {
-                    promptMsgSpanElement.innerHTML = promptMsg;
-                    errMsgSpanElement.innerHTML = "";
+                if(obj.id == "password") {
+                    promptMsgSpanElement.innerHTML = varPasswordPromptMsg;
                 }
+                if(obj.id == "confirmPassword") {
+                    promptMsgSpanElement.innerHTML =
+                        varConfirmPasswordPromptMsg;
+                }
+                errMsgSpanElement.innerHTML = "";
             }
 
 			function checkAll() {
-				return ok;
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var confirmPassword =
+                    document.getElementById("confirmPassword").value;
+                if(checkUsername(username) &&
+                   checkPassword(password) &&
+                   checkConfirmPassword(confirmPassword)) {
+                    return true;
+                }
+                return false;
 			}
         </script>
     </head>
 
-    <body>
+    <body onload="getAllPromptMsg();">
         <form id="userForm" name="userForm" method="GET"
             action="http://localhost:8080/oa/register.cgi"
 			onsubmit="return checkAll();">
@@ -96,7 +162,7 @@
             &emsp;&emsp;密码
             <input type="password" id="password" name="password"
                 onblur="checkPassword(this.value);"
-				onfocus="clearErrMsg(this);"/>
+				onfocus="clearErrMsg(this);" />
             <span id="passwordPromptMsg" class="prompt_msg">
 				字母、数字、符号或组合，长度至少6位
 			</span>
@@ -104,9 +170,13 @@
 
             确认密码
             <input type="password" id="confirmPassword"
-                name="confirmPassword" onblur="checkConfirmPassword();"
-									   onfocus="clearErrMsg(this);" />
-            <span id="confirmPasswordErrMsg" class="err_msg"><span><br />
+                name="confirmPassword"
+                onblur="checkConfirmPassword(this.value);"
+                onfocus="clearErrMsg(this);" />
+            <span id="confirmPasswordPromptMsg" class="prompt_msg">
+                请在此输入密码
+            </span>
+            <span id="confirmPasswordErrMsg" class="err_msg"></span><br />
 
             <input type="submit" />
 
