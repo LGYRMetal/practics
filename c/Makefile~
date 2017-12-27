@@ -1,6 +1,7 @@
 obj := $(patsubst %.c, %.o, $(wildcard *.c))
 
 all: $(obj)
+	make run
 
 $(obj): %.o: %.c
 	cc $< -o $@

@@ -4,8 +4,97 @@
 
 <html>
     <head>
+        <title>动态添加和删除表格</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <style type="text/css">
+            table, th, tr, td {
+                border: thin solid LightGray;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            .link {
+                color: blue;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            .err {
+                color: red;
+                font-size: small;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function addRow() {
+                var nameElt = document.getElementById("name");
+                var name = nameElt.value.trim();
+                var tableElt = document.getElementById("myTable");
+
+                if(name == "") {
+                    document.getElementById("errMsg").innerHTML=
+                        "姓名不能为空，请输入姓名";
+                    return;
+                }
+
+                // the new row
+                var newRow = tableElt.insertRow(tableElt.rows.length);
+
+                // the first new cell
+                var firstNewCell = newRow.insertCell(0);
+                // the second new cell
+                var secondNewCell = newRow.insertCell(1);
+
+                firstNewCell.innerHTML = name;
+                //secondNewCell.innerHTML = "<a id=\"row"+ newRow.rowIndex +"\" href=\"javascript:document.getElementById('row"+ newRow.rowIndex +"').parentNode.parentNode.parentNode.deleteRow("+ newRow.rowIndex +");\">删除</a>";
+                secondNewCell.innerHTML =
+                    "<a class=\"link\" onclick=\"delRow(this);\">删除</a>";
+
+                nameElt.value = "";
+                nameElt.focus();
+            }
+
+            function delRow(row) {
+                var currentRowIndex = row.parentNode.parentNode.rowIndex;
+                var tableElt = row.parentNode.parentNode.parentNode;
+                tableElt.deleteRow(currentRowIndex);
+            }
+
+            function addRowByKeyDown() {
+                if(event.keyCode == 13) {
+                    addRow();
+                }else {
+                    clearErrMsg();
+                }
+            }
+
+            function setTextFocuse() {
+                document.getElementById("name").focus();
+            }
+
+            function clearErrMsg() {
+                document.getElementById("errMsg").innerHTML = "";
+            }
+        </script>
     </head>
 
-    <body>
+    <body onload="setTextFocuse();">
+        <input type="text"  id="name" name="name"
+                                      onkeypress="addRowByKeyDown();"
+                                      onfocus="clearErrMsg();" />
+        <input type="button" name="add" value="添加" onclick="addRow();" />
+        <br />
+        <span id="errMsg" class="err"></span><hr />
+
+        <table id="myTable">
+            <tr>
+                <th>姓名</th>
+                <th>操作</th>
+            </tr>
+        </table>
     </body>
 </html>
