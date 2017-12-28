@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!-- select添加选项 -->
+
+<html>
+    <head>
+        <title>select添加选项</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <style type="text/css">
+            .err {
+                font-size: small;
+                    color: red;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function addOption() {
+                var textElt = document.getElementById("newOption");
+                var varNewOptionText = textElt.value.trim();
+
+                if(varNewOptionText == "") {
+                    document.getElementById("errMsg").innerHTML =
+                        "新选项不能为空";
+                    textElt.value="";
+                    return;
+                }
+
+                var selectElt = document.getElementById("test");
+                //var varNewOptionElt = new Option();
+                var varNewOptionElt = document.createElement("option");
+                varNewOptionElt.text = varNewOptionText;
+                varNewOptionElt.value = varNewOptionText;
+                selectElt.add(varNewOptionElt, null);
+
+                textElt.value = "";
+                textElt.focus();
+            }
+
+            function clearErrMsg() {
+                document.getElementById("errMsg").innerHTML = "";
+            }
+
+            function setTextFocus() {
+                document.getElementById("newOption").focus();
+            }
+
+            function addOptionByPressEnter() {
+                if(window.event.keyCode == 13) {
+                    addOption();
+                }else {
+                    clearErrMsg();
+                }
+            }
+        </script>
+    </head>
+
+    <body onload="setTextFocus();">
+        <input type="text" id="newOption" onfocus="clearErrMsg();" 
+               onkeypress="addOptionByPressEnter();" />
+        <input type="button" value="添加" onclick="addOption();" /><br />
+        <span id="errMsg" class="err"></span>
+        <hr />
+        <select id="test">
+            <option>--请选择--</option>
+        </select>
+    </body>
+</html>

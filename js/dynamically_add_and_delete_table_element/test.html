@@ -52,10 +52,14 @@
                 firstNewCell.innerHTML = name;
                 //secondNewCell.innerHTML = "<a id=\"row"+ newRow.rowIndex +"\" href=\"javascript:document.getElementById('row"+ newRow.rowIndex +"').parentNode.parentNode.parentNode.deleteRow("+ newRow.rowIndex +");\">删除</a>";
                 secondNewCell.innerHTML =
-                    "<a class=\"link\" onclick=\"delRow(this);\">删除</a>";
+                    "<a class=\"link\" onclick=\"delRow(this);\" onmousedown=\"setColor(this, 'red');\" onmouseup=\"setColor(this, 'blue');\">删除</a>";
 
                 nameElt.value = "";
                 nameElt.focus();
+            }
+
+            function setColor(obj, color) {
+                obj.style.color = color;
             }
 
             function delRow(row) {
