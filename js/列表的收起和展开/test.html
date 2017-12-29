@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+    <head>
+        <title>列表的收起和展开</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <style type="text/css">
+            span {
+                cursor: pointer;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function getListItem() {
+                chinaLiEltHTML =
+                    document.getElementById("china").innerHTML;
+                usaLiEltHTML =
+                    document.getElementById("usa").innerHTML;
+            }
+
+            function test(id) {
+                /* 我的实现方法
+                if(document.getElementById(id).innerHTML == "") {
+                    document.getElementById(id).innerHTML =
+                        chinaLiEltHTML;
+                } else {
+                    document.getElementById(id).innerHTML = "";
+                }
+                */
+                var cityList = document.getElementById(id);
+
+                if(cityList.style.display != "none") {
+                    cityList.style.display = "none";
+                } else {
+                    cityList.style.display = "block";
+                }
+            }
+        </script>
+    </head>
+
+    <body onload="getListItem();">
+        <ul>
+            <li>
+                <span onclick="test('china');">
+                    中国
+                </span>
+                <ul id="china">
+                    <li>北京</li>
+                    <li>上海</li>
+                    <li>广州</li>
+                </ul>
+            </li>
+
+            <li>
+                <span onclick="test('usa');">美国</span>
+                <ul id="usa">
+                    <li>纽约</li>
+                    <li>洛杉矶</li>
+                </ul>
+            </li>
+        </ul>
+    </body>
+</html>
