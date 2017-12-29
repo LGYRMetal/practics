@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <title>convert DOM object to jQuery object</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <script type="text/javascript"
+                src="../../../jQuery/jquery-1.12.4.min.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                var btn = document.getElementById("myBtn");
+                var $btnJQ = $(btn);
+                alert($btnJQ.val());
+            });
+        </script>
+    </head>
+
+    <body>
+        <input type="button" id="myBtn" value="button" />
+    </body>
+</html>
