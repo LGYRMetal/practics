@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <title>convert jQuery object to DOM object</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <script type="text/javascript"
+                src="../../../jQuery/jquery-1.12.4.min.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                // obtain the jQuery object
+                var v_jQuery = $("#name");
+                alert(v_jQuery.val());
+
+                // convert the jQuery object to DOM object
+                var v_dom = v_jQuery[0];
+                alert(v_dom.value);
+            });
+        </script>
+    </head>
+
+    <body>
+        <input type="text" id="name" value="abc" />
+    </body>
+</html>
