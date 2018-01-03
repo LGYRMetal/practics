@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Simple calculator</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <script type="text/javascript" 
+                src="../../../jQuery/jquery-1.12.4.min.js"></script>
+
+        <script type="text/javascript">
+            function compute() {
+                var v_operand1 = $("#operand1").val();
+                var v_operand2 = $("#operand2").val();
+                var v_operator = $("#operator").val();
+
+                $("#result").val(
+                        eval(v_operand1 + v_operator + v_operand2)
+                        );
+            }
+        </script>
+    </head>
+
+    <body>
+        <input type="text" id="operand1" />
+        <select id="operator">
+            <option>--请选择运算符--</option>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">&times;</option>
+            <option value="/">&divide;</option>
+        </select>
+        <input type="text" id="operand2" />
+        <input type="button" value="=" onclick="compute();" /><br />
+        结果<br /><input type="text" id="result" />
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Select all and deselect all</title>
+        <meta http-equiv="Content-Type"
+              content="text/html; charset=utf-8" />
+
+        <script type="text/javascript"
+                src="../../../jQuery/jquery-1.12.4.min.js"></script>
+
+        <script type="text/javascript">
+            var checked = false;
+            function checkAllOrNot() {
+                var v_subCheckboxes = $("br ~ input");
+
+                if(checked) {
+                    for(var i=0; i < v_subCheckboxes.length; i++) {
+                        $(v_subCheckboxes[i]).removeAttr("checked");
+                    }
+                    checked = false;
+                } else {
+                    for(var i=0; i < v_subCheckboxes.length; i++) {
+                        $(v_subCheckboxes[i]).attr("checked", "checked");
+                    }
+                    checked = true;
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <span id="text">全选</span>
+        <input type="checkbox" id="main" onclick="checkAllOrNot();" />
+        <br />
+        北京 <input type="checkbox" /><br />
+        上海 <input type="checkbox" /><br />
+        天津 <input type="checkbox" /><br />
+    </body>
+</html>
