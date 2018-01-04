@@ -14,13 +14,24 @@
                 var v_subCheckboxes = $("br ~ input");
 
                 if(checked) {
+                    //alert("if");
                     for(var i=0; i < v_subCheckboxes.length; i++) {
-                        $(v_subCheckboxes[i]).removeAttr("checked");
+                        //alert($(v_subCheckboxes[i]).attr("checked"));
+                        //$(v_subCheckboxes[i]).removeAttr("checked");
+                        //$(v_subCheckboxes[i]).attr("checked", false);
+                        $(v_subCheckboxes[i]).prop("checked", false);
+                        //alert($(v_subCheckboxes[i]).attr("checked"));
+                        //v_subCheckboxes[i].checked = false;
                     }
                     checked = false;
                 } else {
+                    //alert("else");
                     for(var i=0; i < v_subCheckboxes.length; i++) {
-                        $(v_subCheckboxes[i]).attr("checked", "checked");
+                        //alert($(v_subCheckboxes[i]).attr("checked"));
+                        //$(v_subCheckboxes[i]).attr("checked", true);
+                        $(v_subCheckboxes[i]).prop("checked", true);
+                        //alert($(v_subCheckboxes[i]).attr("checked"));
+                        //v_subCheckboxes[i].checked = true;
                     }
                     checked = true;
                 }
