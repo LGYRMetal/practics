@@ -27,13 +27,19 @@
     <tag>
         <description>自定义遍历List的forEachList标签.</description>
         <name>forEachList</name>
-        <tag-class>com.lgy.jsp.tags.CustomForEachList</tag-class>
+        <tag-class>com.lgy.jsp.tags.CustomForEachListTag</tag-class>
         <body-content>scriptless</body-content>
 
         <attribute>
+            <name>items</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
         </attribute>
 
         <attribute>
+            <name>var</name>
+            <require>true</require>
+            <rtexprvalue>false</rtexprvalue>
         </attribute>
     </tag>
 </taglib>

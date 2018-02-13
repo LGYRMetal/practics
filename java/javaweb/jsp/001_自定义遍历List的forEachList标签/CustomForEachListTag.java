@@ -3,9 +3,10 @@ package com.lgy.jsp.tags;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import java.utils.List;
-import java.utils.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class CustomForEachListTag extends SimpleTagSupport {
@@ -20,7 +21,7 @@ public class CustomForEachListTag extends SimpleTagSupport {
         this.var = var;
     }
 
-    void doTag() throws JspException, IOException {
+    public void doTag() throws JspException, IOException {
         for(Object obj : this.items) {
             // 由于EL只能处理四大域中的数据，所以这里将当前遍历对象放入到
             // page域中，其key为var所指定的名称，而value则为当前的遍历对象

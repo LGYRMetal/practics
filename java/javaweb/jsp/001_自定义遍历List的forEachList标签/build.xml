@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="CustomForEachList" basedir=".">
+    <property name="home.dir" value="/mnt/d/lgy"/>
+    <property name="tomcat.dir" value="${home.dir}/apache-tomcat-9.0.2"/>
+    <property name="jsp.api" value="${tomcat.dir}/lib/jsp-api.jar"/>
+    <property name="webapps.dir" value="${tomcat.dir}/webapps"/>
+    <property name="app.root" value="${webapps.dir}/${ant.project.name}"/>
+    <property name="webinf.dir" value="${app.root}/WEB-INF"/>
+    <property name="class.dir" value="${webinf.dir}/classes"/>
+    <property name="lib.dir" value="${webinf.dir}/lib"/>
+
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${basedir}" includes="**/*~ **/*.class **/*ant*"/>
+            <fileset dir="${app.root}"/>
+        </delete>
+    </target>
+
+    <target name="mkdirs">
+        <mkdir dir="${app.root}"/>
+        <mkdir dir="${webinf.dir}"/>
+        <mkdir dir="${class.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+    </target>
+
+    <target name="compile" depends="clean,mkdirs">
+        <javac srcdir="${basedir}" destdir="${class.dir}"
+            classpath="${jsp.api}">
+            <compilerarg line="-d ${class.dir}"/>
+        </javac>
+    </target>
+
+    <target name="deploy" depends="compile">
+        <copy todir="${app.root}">
+            <fileset dir="${basedir}" includes="**/*.jsp"/>
+        </copy>
+        <copy todir="${webinf.dir}">
+            <fileset dir="${basedir}" includes="**/*.tld web.xml"/>
+        </copy>
+    </target>
+</project>
