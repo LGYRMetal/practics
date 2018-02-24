@@ -72,4 +72,11 @@ public class Student implements Serializable {
 	public void setScore(double score) {
 		this.score = score;
 	}
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", num=" + num + ", password=" + password
+				+ ", name=" + name + ", age=" + age + ", score=" + score + "]";
+	}
+
 }
