@@ -1,0 +1,2 @@
+建议只使用document.write()向文档输出写内容。
+如果在文档已加载后执行document.write,整个HTML页面将被覆盖:
