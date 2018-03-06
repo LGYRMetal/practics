@@ -43,7 +43,8 @@ WHERE COMM > SAL;
 -- 4. 找出佣金高于薪金60%的雇员
 SELECT *
 FROM EMP
-WHERE SAL * 0.6 = COMM - SAL;
+--WHERE SAL * 0.6 = COMM - SAL;
+WHERE COMM > SAL * 0.6
 
 -- 5. 找出部门10中所有经理和部门20中的所有办事员的详细资料
 SELECT *
@@ -74,8 +75,7 @@ FROM EMP
 WHERE (SYSDATE - HIREDATE) / 365 > 12;
 
 -- 10. 显示只有首字母大写的所有雇员的姓名
-SELECT SUBSTR(ENAME, 0, 1) || LOWER(SUBSTR(ENAME, 1, LENGTH(ENAME)-1)) 姓名
-SUBSTR(ENAME, 1, LENGTH(ENAME)-1)
+SELECT SUBSTR(ENAME, 1, 1) || LOWER(SUBSTR(ENAME, 2)) 姓名
 FROM EMP;
 
 -- 11. 显示正好为15个字符的雇员姓名
@@ -118,6 +118,11 @@ ORDER BY 工作 DESC, 薪金 ASC;
 
 -- 19. 显示所有雇员的姓名和加入公司的年份和月份，按雇员受雇日所在月排序，将
 --     最早年份的项目排在最前面
+SELECT ENAME "姓名",
+       EXTRACT(year FROM HIREDATE) "加入公司年份",
+       EXTRACT(month FROM HIREDATE) "加入公司月份"
+FROM EMP
+ORDER BY "加入公司年份" ASC, "加入公司月份" ASC;
 
 -- 20. 显示在一个月为30天的情况下所有雇员的日薪金
 SELECT EMPNO 员工编号,
@@ -129,6 +134,9 @@ SELECT EMPNO 员工编号,
 FROM EMP;
 
 -- 21. 找出在(任何年份的)2月受聘的所有雇员
+SELECT *
+FROM EMP
+WHERE EXTRACT(month FROM HIREDATE) = 2;
 
 -- 22. 对于每个雇员，显示其加入公司的天数
 SELECT ENAME 姓名, SYSDATE - HIREDATE 加入公司天数
