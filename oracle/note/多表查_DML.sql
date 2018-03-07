@@ -69,3 +69,23 @@ SELECT * FROM DEPT;
 -- 事务也可以以提交方式结束，对数据库的修改被永久的保存，其他用户可以看到
 -- 被修改的数据，在事务没有结束之前，只有当前用户可以看到对数据库的修改操作
 -- 其他用户看不到
+
+-- 一次性的插入多条数据，复制表中的数据
+INSERT INTO DEPT_BAK SELECT * FROM DEPT;
+
+-- UPDATE
+-- 使用UPDATE 语句的时候，在事务没有结束之前，该条数据会被锁住, 其他的用户
+-- 无法修改这条数据
+-- 事务结束之后，该条数据的锁被放开，其他用户才可以操作这条数据
+
+-- FOR UPDATE也是DML语句，它在执行的时候，会锁住整个表
+
+
+-- 合并语句 MERGE (Oracle专有，从Oracle9i开始引入)
+MERGE INTO DEPT_BACK D
+USING DEPT S
+ON (D.DEPTNO = S.DETPNO)
+WHEN MATCHED THEN
+    UPDATE SET D.DNAME = S.DNAME, D.LOC_ID = S.LOC_ID
+WHEN NOT MATCHED THEN
+    INSERT VALUES (S.DEPTNO, S.DNAME, S.LOC_ID);
