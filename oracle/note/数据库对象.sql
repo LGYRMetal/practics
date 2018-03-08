@@ -316,3 +316,126 @@ FROM EMP;
 
 -- 删除视图,不会影响原来的数据
 DROP VIEW HR_VIEW;
+
+-- 创建视图时，为每个字段指定字段名称
+CREATE OR REPLACE VIEW VIEW_EMP
+-- CREATE VIEW 语句总的字段与子查询中的字段必须匹配
+( 员工编号, 员工姓名, 薪水, 佣金 )
+AS
+SELECT EMPNO, ENAME, SAL, COMM FROM EMP;
+
+
+-- 创建视图时，在使用函数的查询字段必须指定别名，否则报错
+CREATE OR REPLACE VIEW V_EMP_SAL
+AS
+SELECT DEPTNO,
+       MAX(SAL) MAXSAL, -- 必须指定别名
+       MIN(SAL) MINSAL, -- 必须指定别名
+       SUM(SAL) SUMSAL, -- 必须指定别名
+       AVG(SAL) AVGSAL  -- 必须指定别名
+FROM EMP
+WHERE DEPTNO IS NOT NULL
+GROUP BY DEPTNO
+GROUP BY DEPTNO;
+
+-- 视图就是一个(虚)表,我们可以对表插入数据，也可以对视图插入数据
+CREATE OR REPLACE V_EMPINFO
+AS
+SELECT * FROM EMP WHERE SAL > 2000;
+
+-- 对视图插入数据,数据会被插入到原表,但视图主要的功能是查询，所以最好创建
+-- 只读的视图，禁止对试图执行DML操作
+INSERT INTO V_EMPINFO
+VALUES(8000, '张1', '工程师', '7902', '12-8月-1987', 1900, 500, 20);
+
+-- 创建只读视图, 不能执行DML操作
+CREATE OR REPLACE VIEW V_EMPINFO
+AS
+SELECT * FROM EMP WHERE SAL > 2000
+WITH READ ONLY;
+
+
+-- 行内视图，就是出现在FROM后面的子查询，也就是一个视图，但是该试图没有命名
+-- 不会在数据库中保存，例:
+-- 查询工资最高的前三个人的全部信息
+-- 这种放是称为 TOP-N 分析法
+SELECT *
+FROM (SELECT * FROM EMP ORDER BY SAL DESC)
+WHERE ROWNUM <= 3; -- ROWNUM只适用于 < 或 <= 的情况，不能用于 > 或 >= 的情况
+
+
+------------------------- TOP-N 分析法 -----------------------
+-- 数据插入的顺序决定了查询数据是的顺序，也就决定了 ROWNUM 的顺序
+
+-- 1. rownum 对于等于某值的查询条件
+--    如果希望找到学生表中第一条学生的信息，可以使用 ROWNUM = 1 作为条件，
+--    但想找到学生表中第二条学生信息，使用 ROWNUM = 2 结果查不到数，因为
+--    rownum都是从 1 开始，但是 1 以上的自然数在 ROWNUM 做等于判断时认为
+--    都是 false 条件，所以无法查到 ROWNUM = n (n > 1)
+--
+-- 2. rownum 对于大于某值的查询条件
+--    如果想找到从第二行记录以后的记录，当使用 ROWNUM > 2 是查询不出记录的，
+--    原因是由于 ROWNUM 是一个总是从 1 开始的伪列，Oracle 认为
+--    ROWNUM > n (n > 1) 这种条件依旧不成立，所以查不到记录
+--
+-- 如果想查到第二行以后的记录，可以使用一下子查询方法来解决 。注意子查询中
+-- 的 ROWNUM 必须要有别名，否则还是不会查出记录来，这是因为 ROWNUM 不是某个
+-- 表的列，如果不起别名的话，无法知道 ROWNUM 是子查询的列还是主查询的列
+SELECT *
+FROM (SELECT ROWNUM RN, ID, NAME FROM STUDENT)
+WHERE RN <= 4 AND RN >= 2;
+--
+-- 3. ROWNUM 对于小于某值的查询条件
+--    如果想查到第三条记录以前的记录，当使用 ROWNUM < 3 是能够得到两条记录
+--    的。显然 ROWNUM 对于 ROWNUM < n (n > 1) 的条件认为是成立的，所以可以
+--    找到记录
+--
+-- 4. 可能有时候需要查询ROWNUM在某区间的数据，那怎么查？从上面的分析中可以
+--    看出 ROWNUM 对于小于某值的查询条件是认为true的，ROWNUM 对于大于某值
+--    的查询条件直接认为是false的，但是可以使用子查询间接让想要查询的数据
+--    转换为true的情况。例如要查询 ROWNUM 在第二行到第三行之间的数据，包括
+--    第二行和第三行数据，那么我们只能写一下语句，先让它返回小于等于三的
+--    记录行，然后在主查询中判断新的ROWNUM的别名列大于等于二的记录行。但是
+--    这样的操作会在大数据集中影响速度
+--
+-- 5. ROWNUM 和 排序
+--    Oracle中的 ROWNUM 是在取数据的时候差生的序号，所以想对指定排序的数据
+--    取指定的 ROWNUM 行数据就必须注意了
+-- 
+-- 可以看出，ROWNUM 并不是按照 name 列来生成的序号，相同是按照记录插入是的
+-- 顺序给记录排的号，ROWID 也是顺序分配的，为了解决这个问题，必须使用子查询
+-- ROWID 代表数据存放在硬盘中的物理位置地址，可以使用 ROWID 来获得数据的
+-- 修改权限
+
+
+--------------------------- 同义词 ---------------------------------
+-- 同义词，就是数据库对象的一个别名，可以简化访问其他用户的数据库对象
+SELECT SYSDATE FROM SYS.DUAL;
+
+-- 语法
+CREATE OR REPLACE SYNONYM MYDUAL
+FOR SYS.DUAL;
+
+SELECT SYSDATE FROM MYDUAL;
+
+-- 删除同义词
+DROP SYNONYM MYDUAL;
+
+
+-------------------------------- 序列 -----------------------
+-- 序列，用来维护数据库的主键数据,Oracle特有，相当于MySQL的 自增字段
+CREATE TABLE STUDENT(
+    SID NUMBER(4) PRIMARY KEY,
+    SNAME VARCHAR2(10)
+);
+-- 创建序列
+CREATE SEQUENCE SEQ_STU
+MINVALUE 1
+MAXVALUE 9999
+START WHIT 1
+INCREMENT BY 1;
+-- 使用序列
+INSERT INTO STUDENT VALUES (SEQ_STU.NEXTVAL, '张1');
+-- 序列保存在 SYS.DUAL 中
+SELECT SEQ_STU.CURRVAL
+FROM SYS.DUAL;
