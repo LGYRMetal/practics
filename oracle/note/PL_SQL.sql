@@ -228,3 +228,31 @@ BEGIN
         EXIT WHEN V_COUNT > 10;
     END LOOP;
 END;
+
+
+-- WHILE 循环
+DECLARE
+    V_COUNT NUMBER(3) := 1;
+BEGIN
+    WHILE (V_COUNT <= 10) LOOP
+        DBMS_OUTPUT.put_line('V_COUNT=' || V_COUNT);
+        V_COUNT := V_COUNT + 1;
+    END LOOP;
+END;
+
+
+-- FOR 循环, 在使用FOR循环的时候，由Oracle维护计数器
+BEGIN
+    -- Oracle 会自动声明计数器，会自动进行计数器的迭代
+    FOR V_COUNT IN 1..100 LOOP
+        DBMS_OUTPUT.put_line('V_COUNT=' || V_COUNT);
+    END LOOP;
+END;
+
+-- 倒序
+BEGIN
+    -- Oracle 会自动声明计数器，会自动进行计数器的迭代
+    FOR V_COUNT IN REVERSE 1..100 LOOP
+        DBMS_OUTPUT.put_line('V_COUNT=' || V_COUNT);
+    END LOOP;
+END;
