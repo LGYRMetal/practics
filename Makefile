@@ -1,2 +1,2 @@
 clean:
-	find ./ -name "*~" -exec rm -rfv {} \;
+	find ./ -name "*~*" -exec rm -rfv {} \;

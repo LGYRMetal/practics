@@ -25,7 +25,7 @@
 -- 1. %ROWCOUNT     受SQL影响的行数
 -- 2. %FOUND        Boolean 值，是否还有数据
 -- 3. %NOTFOUNTD    Boolean 值，是否已无数据
--- 4. ISOPEN        游标是否打开
+-- 4. %ISOPEN        游标是否打开
 -- 
 -- 显示游标和隐式游标都有这四种属性。但使用方法和含义却不相同。
 -- 在使用游标的时候，需要使用游标的名称作为前缀。但隐式游标没有名称，所以在
@@ -151,4 +151,14 @@ BEGIN
 
     -- 4. 关闭游标,清空游标区域
     CLOSE CUR_EMP;
+END;
+
+
+-- 带参数的游标
+DECLARE
+    CURSOR CUR(d_no IN emp.deptno%type, min_sal IN emp.sal%type := 1000)
+    IS
+    SELECT ename, sal, hiredate
+    FROM emp WHERE deptno = d_no and sal >= min_sal;
+BEGIN
 END;
