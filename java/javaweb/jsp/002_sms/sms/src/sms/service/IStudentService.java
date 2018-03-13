@@ -3,7 +3,7 @@ package sms.service;
 import sms.beans.Student;
 
 public interface IStudentService {
-	// ¶ÔÓÃ»§µÇÂ¼ĞÅÏ¢½øĞĞÑéÖ¤
+	// å¯¹ç”¨æˆ·ç™»å½•ä¿¡æ¯è¿›è¡ŒéªŒè¯
 	public abstract Student checkUser(String num, String password);
 
 	public abstract Integer saveStudent(Student student);

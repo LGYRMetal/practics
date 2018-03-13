@@ -1,0 +1,19 @@
+<project name="JDBCTest" basedir="." default="run">
+    <property environment="env"/>
+    <echo>CLASSPATH: ${env.CLASSPATH}</echo>
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${basedir}" includes="**/*~ *.class *ant*"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${basedir}" classpath="${classpath}"/>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="${ant.project.name}" classpath="${basedir}"/>
+        <ant target="clean"/>
+    </target>
+</project>

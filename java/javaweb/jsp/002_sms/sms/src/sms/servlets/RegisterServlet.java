@@ -17,68 +17,68 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		// 1. »ñÈ¡session
+		// 1. è·å–session
 		HttpSession session = request.getSession();
 		
-		// 2. »ñÈ¡ÇëÇó²ÎÊı
-		String num = request.getParameter("num"); // ²»ÄÜÎª¿Õ
-		String password = request.getParameter("password"); // ²»ÄÜÎª¿Õ
-		String name = request.getParameter("name"); // ²»ÄÜÎª¿Õ
-		String age = request.getParameter("age"); // ¿ÉÒÔÎª¿Õ
-		String score = request.getParameter("score"); // ¿ÉÒÔÎª¿Õ
+		// 2. è·å–è¯·æ±‚å‚æ•°
+		String num = request.getParameter("num"); // ä¸èƒ½ä¸ºç©º
+		String password = request.getParameter("password"); // ä¸èƒ½ä¸ºç©º
+		String name = request.getParameter("name"); // ä¸èƒ½ä¸ºç©º
+		String age = request.getParameter("age"); // å¯ä»¥ä¸ºç©º
+		String score = request.getParameter("score"); // å¯ä»¥ä¸ºç©º
 		
 		if(num == null || "".equals(num.trim())) {
-			session.setAttribute("message", "Ñ§ºÅ²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å­¦å·ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 		
 		if(password == null || "".equals(password)) {
-			session.setAttribute("message", "ÃÜÂë²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å¯†ç ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 		
 		if(name == null || "".equals(name.trim())) {
-			session.setAttribute("message", "ĞÕÃû²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å§“åä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 		
 		if(age == null || "".equals(age.trim())) {
-			session.setAttribute("message", "ÄêÁä²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å¹´é¾„ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 		
 		if(score == null || "".equals(score.trim())) {
-			session.setAttribute("message", "³É¼¨²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "æˆç»©ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 
-		//½â¾öname¿ÉÄÜ³öÏÖµÄÖĞÎÄÂÒÂëÎÊÌâ
+		//è§£å†³nameå¯èƒ½å‡ºç°çš„ä¸­æ–‡ä¹±ç é—®é¢˜
 		byte[] bytes=name.getBytes("ISO8859-1");
 		name = new String(bytes, "UTF-8");
 		
-		// 3. ´´½¨Student¶ÔÏó
+		// 3. åˆ›å»ºStudentå¯¹è±¡
 		Student student = new Student(num, name, Integer.valueOf(age), Double.valueOf(score));
 		student.setPassword(password);
 		
-		// 4. ´´½¨Service¶ÔÏó
+		// 4. åˆ›å»ºServiceå¯¹è±¡
 		IStudentService service = new StudentServiceImpl();
 		
-		// 5. µ÷ÓÃService¶ÔÏóµÄsaveStudent()·½·¨½«¶ÔÏóĞ´ÈëDB
+		// 5. è°ƒç”¨Serviceå¯¹è±¡çš„saveStudent()æ–¹æ³•å°†å¯¹è±¡å†™å…¥DB
 		Integer id = service.saveStudent(student);
 		
-		// 6. Ğ´ÈëÊ§°Ü£¬ ÔòÌø×ªµ½×¢²áÒ³Ãæ£¬ÖØĞÂ×¢²á£¬²¢¸ø³ö´íÎóĞÅÏ¢
+		// 6. å†™å…¥å¤±è´¥ï¼Œ åˆ™è·³è½¬åˆ°æ³¨å†Œé¡µé¢ï¼Œé‡æ–°æ³¨å†Œï¼Œå¹¶ç»™å‡ºé”™è¯¯ä¿¡æ¯
 		if (id == null) {
-			session.setAttribute("message", "Êı¾İĞ´ÈëÊı¾İ¿âÊ§°Ü£¬ÇëÖØÊÔ");
+			session.setAttribute("message", "æ•°æ®å†™å…¥æ•°æ®åº“å¤±è´¥ï¼Œè¯·é‡è¯•");
 			response.sendRedirect(request.getContextPath() + "/register.jsp");
 			return;
 		}
 		
-		// 7. Ğ´Èë³É¹¦£¬ÔòÌø×ªµ½µÇÂ¼Ò³Ãæ
+		// 7. å†™å…¥æˆåŠŸï¼Œåˆ™è·³è½¬åˆ°ç™»å½•é¡µé¢
 		session.setAttribute("message", id);
 		response.sendRedirect(request.getContextPath() + "/login.jsp");
 		return;

@@ -3,11 +3,11 @@ package sms.beans;
 import java.io.Serializable;
 
 public class Student implements Serializable {
-	private Integer id; // ÒµÎñÎŞ¹ØÖ÷¼ü£¬Èç¹ûidÊÇÒªÉùÃ÷ÎªintÀàĞÍ£¬½¨Òé½«ËüÉùÃ÷Îª°ü×°ÀàĞÍ
-						// Integer£¬ÒòÎªÉùÃ÷ÎªInteger¿ÉÒÔ¶Ôid½øĞĞif(id == null)ÕâÑùµÄ
-						// ÅĞ¶Ï£¬¶øintÀàĞÍÔò²»ĞĞ
-	private String num; // Ñ§ºÅ
-	private String password; // µÇÂ½ÃÜÂë
+	private Integer id; // ä¸šåŠ¡æ— å…³ä¸»é”®ï¼Œå¦‚æœidæ˜¯è¦å£°æ˜ä¸ºintç±»å‹ï¼Œå»ºè®®å°†å®ƒå£°æ˜ä¸ºåŒ…è£…ç±»å‹
+						// Integerï¼Œå› ä¸ºå£°æ˜ä¸ºIntegerå¯ä»¥å¯¹idè¿›è¡Œif(id == null)è¿™æ ·çš„
+						// åˆ¤æ–­ï¼Œè€Œintç±»å‹åˆ™ä¸è¡Œ
+	private String num; // å­¦å·
+	private String password; // ç™»é™†å¯†ç 
 	private String name;
 	private int age;
 	private double score;

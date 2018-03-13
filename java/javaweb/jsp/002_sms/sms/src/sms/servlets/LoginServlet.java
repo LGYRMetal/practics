@@ -18,38 +18,38 @@ public class LoginServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 1. ½ÓÊÕÇëÇó²ÎÊı£¬²¢»ñÈ¡Session
+		// 1. æ¥æ”¶è¯·æ±‚å‚æ•°ï¼Œå¹¶è·å–Session
 		String num = request.getParameter("num");
 		String password = request.getParameter("password");
 		HttpSession session = request.getSession();
 		
 		if(num == null || "".equals(num.trim())) {
-			session.setAttribute("message", "Ñ§ºÅ²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å­¦å·ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
 		if(password == null || "".equals(password)) {
-			session.setAttribute("message", "ÃÜÂë²»ÄÜÎª¿Õ");
+			session.setAttribute("message", "å¯†ç ä¸èƒ½ä¸ºç©º");
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
-		// 2. ´´½¨Service¶ÔÏó
+		// 2. åˆ›å»ºServiceå¯¹è±¡
 		IStudentService service = new StudentServiceImpl();
 
-		// 3. µ÷ÓÃService¶ÔÏóµÄcheckUser()·½·¨ÑéÖ¤µÇÂ¼ĞÅÏ¢
+		// 3. è°ƒç”¨Serviceå¯¹è±¡çš„checkUser()æ–¹æ³•éªŒè¯ç™»å½•ä¿¡æ¯
 		Student student = service.checkUser(num, password);
 		
-		// 4. ÑéÖ¤Î´Í¨¹ı£¬ ÔòÌø×ªµ½µÇÂ¼Ò³Ãæ£¬ÈÃÓÃ»§ÔÙ´ÎÊäÈëµÇÂ¼ĞÅÏ¢£¬²¢ÇÒ´ËÊ±ĞèÒª¸øÓÃ»§Ò»Ğ©
-		//    ÌáÊ¾ĞÅÏ¢
+		// 4. éªŒè¯æœªé€šè¿‡ï¼Œ åˆ™è·³è½¬åˆ°ç™»å½•é¡µé¢ï¼Œè®©ç”¨æˆ·å†æ¬¡è¾“å…¥ç™»å½•ä¿¡æ¯ï¼Œå¹¶ä¸”æ­¤æ—¶éœ€è¦ç»™ç”¨æˆ·ä¸€äº›
+		//    æç¤ºä¿¡æ¯
 		if(student == null) {
-			session.setAttribute("message", "Ñ§ºÅ»òÃÜÂë´íÎó");
+			session.setAttribute("message", "å­¦å·æˆ–å¯†ç é”™è¯¯");
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
-		// 5. ÑéÖ¤Í¨¹ı£¬ÔòÌø×ªµ½ÏµÍ³Ö÷Ò³Ãæ index.jsp
+		// 5. éªŒè¯é€šè¿‡ï¼Œåˆ™è·³è½¬åˆ°ç³»ç»Ÿä¸»é¡µé¢ index.jsp
 		session.setAttribute("student", student);
 		response.sendRedirect(request.getContextPath() + "/welcome.jsp");
 	}

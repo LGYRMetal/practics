@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class JdbcUtils {
 	private static Connection conn;
 
-	// 加载DB驱动
+	// 鍔犺浇DB椹卞姩
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -18,7 +18,7 @@ public class JdbcUtils {
 		}
 	}
 	
-	// 获取Connection对象
+	// 鑾峰彇Connection瀵硅薄
 	public static Connection getConnection() throws SQLException {
 		String url = "jdbc:mysql:///sms";
 		String user = "root";
@@ -30,7 +30,7 @@ public class JdbcUtils {
 		return conn;
 	}
 	
-	// 关闭资源
+	// 鍏抽棴璧勬簮
 	public static void close(Connection conn, Statement stmt, ResultSet rs)
 			throws SQLException {
 		if(conn != null && !conn.isClosed()) {

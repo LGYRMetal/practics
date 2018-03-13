@@ -63,8 +63,8 @@ public class StudentDaoImpl implements IStudentDao {
 			ps.setDouble(5, student.getScore());
 			ps.executeUpdate();
 			
-			//sql = "select @@identity as newId;"; // ·½·¨Ò»
-			sql = "select last_insert_id() as newId;"; // ·½·¨¶þ
+			//sql = "select @@identity as newId;"; // æ–¹æ³•ä¸€
+			sql = "select last_insert_id() as newId;"; // æ–¹æ³•äºŒ
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if(rs.next()) {
