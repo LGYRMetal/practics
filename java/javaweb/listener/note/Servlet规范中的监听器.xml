@@ -1,0 +1,33 @@
+2.1 Servlet规范中的监听器
+    Servlet规范中已经定义好了八个监听器接口，他们要监听的对象分别是
+request、session、servletContext对象，触发监听器的事件是这三个对象的创建与销毁，他们的域属性空间中属性的添加、删除、修改，及session的钝化与活化操作。
+    在JavaWeb项目中使用监听器，需要在web.xml文件中对监听器进行注册。例:
+<!-- 注册监听器 -->
+<listener>
+    <listener-class>com.abc.listener.MyRequestListener</listener-class>
+</listener>
+
+2.1.1 ServletRequestListener
+    该监听器用于完成对 Request 对象的创建及销毁的监听，即当 Reauest 对象被
+创建或被销毁时，会触发该监听器中相应方法的执行。
+
+2.1.2 ServletRequestAttributeListener
+    该监听器用于完成对 request 域属性空间中属性的添加、修改、删除操作的监听
+
+2.1.3 HttpSessionListener
+    该监听器用于完成对Session对象的创建及销毁的监听
+
+2.1.4 HttpSessionAttributeListener
+    该监听器用于完成对 session 域属性空间中属性的添加、修改、删除操作的监听
+
+2.1.5 ServletContextListener
+    该监听器用于完成对 ServletContext 对象的创建及销毁的监听。不过需要注意，
+由于 ServletContext 在一个应用中只有一个，且是在服务器启动时创建。另外，
+ServletContext 的生命周期与整个应用相同，所以当项目重新部署，或Tomcat正常
+关闭(通过 stop service 关闭，不能时terminate关闭)时可以销毁 ServletContext。
+
+2.1.6 ServletContextAttributeListener
+
+2.1.7 HttpSessionBindingListener
+
+2.1.8 HttpSessionSctivationListener

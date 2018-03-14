@@ -1,0 +1,21 @@
+<project name="listener" basedir="." default="run">
+    <target name="clean">
+        <defaultexcludes remove="**/*~"/>
+        <delete quiet="true" includeemptydirs="true">
+            <fileset dir="${basedir}" includes="**/*~* **/*ant*"/>
+            <fileset dir="${basedir}/build"/>
+        </delete>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${basedir}/build"/>
+        <javac srcdir="${basedir}/src">
+            <compilerarg line="-d ${basedir}/build"/>
+        </javac>
+    </target>
+
+    <target name="run" depends="compile">
+        <java classname="listener.test.Test" classpath="${basedir}/build"/>
+        <ant target="clean"/>
+    </target>
+</project>
