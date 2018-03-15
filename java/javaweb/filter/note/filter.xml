@@ -1,0 +1,24 @@
+                            Filter 基础                             
+    Filter 是 Servlet 规范的三大组件之一。顾名思义，就是过滤。可以在请求到达
+目标资源之前先对请求进行拦截过滤，即对请求进行一些处理；也可以在响应到达客户
+端之前先对响应进行拦截过滤，即对响应进行一些处理。
+
+1.1 Filter 的生命周期
+    Filter 的生命周期与Servlet的生命周期类似，其主要生命周期阶段有四个:
+Filter对象的创建、Filter对象的初始化、Filter执行 doFilter() 方法，及最终
+Filter对象被销毁。
+    Filter的整个生命周期过程的执行，均由Web服务器负责管理。即Filter从创建到
+销毁的整个过程中方法的调用，都是由Web服务器负责调用执行，程序员无法控制其执
+行流程。
+
+<!-- 注册Filter -->
+<filter>
+    <filter-name>Some-Filter</filter-name>
+    <filter-class>com.abc.filters.SomeFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>Some-Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+chain.doFilter(request, response); // 将请求放行到下一个资源
