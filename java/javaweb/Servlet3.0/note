@@ -1,0 +1,64 @@
+1. 运行环境:
+    Servlet2.5: 要求运行环境最低是JDK5.0, Tomcat5.0
+    Servlet3.0: 要求运行环境最低是JDK6.0, Tomcat7.0
+2. 默认Servlet3.0web工程中是没有web.xml的
+
+3. Servlet3.0的注解
+    Servlet3.0规范中允许在定义Servlet、Filter、Listener三大组件时使用注解，
+而不用在web.xml进行注册了。Servlet3.0规范允许web项目没有web.xml配置文件。
+
+3.1 Servlet注解
+
+4. Servlet3.0，两种注册方式同时存在(web.xml、注解)
+    若对于Servlet采用了两种方式同时进行注册，则需要注意：
+    1. 若两种方式的url-pattern值相同，则应用无法启动
+    2. 若两种方式的url-pattern值不同，那么相当于该Servlet具有两个url-pattern
+
+    若对于filter采用了两种方式同时进行注册，则需要注意：
+    1. 无论url-pattern的值是否相同，其都会作为两个独立的Filter出现的
+
+    若对于listener采用了两种方式同时进行注册，则需要注意：
+    1. 其仅仅是相当于一个Listener
+
+注意:
+<web-app/>中的metadata-complete的属性值为true，则表示对三大组件的注册方式
+只有web.xml中的注册起作用，将忽略注解的注册；若为false，则两种注册方式同时
+起作用。其默认值为false
+
+
+
+
+---------------- servlet3.0的文件上传 ---------
+1. servlet3.0提供了专门的api来完成文件上传，使文件上传实现起来变得简单，其
+在javax.servlet.http包中
+
+2. 在处理文件上传的Servlet类前需要添加注解 @MultipartConfig 以表明当前
+Servlet可以处理Mutipart请求
+
+3. 步骤：
+1）获取服务端保存上传文件的目录路径
+String path = this.getServletContext().getRealPath("/images");
+2）从请求中获取Multipart请求中的上传文件“部分”对象
+Part part = request.getPart("photo");
+3）获取指定的头部属性
+String header = part.getHeader("Content-Disposition");
+4）从header中获取原始文件名
+int index = header.lastIndexOf("=");
+String fileName = header.substring(index + 2, header.length() - 1);
+3）完成上传
+part.write(path + "/" + fileName);
+
+
+----------------- servlet 异步处理 ---------------
+1.需要在需要实现异步处理的servlet的注解中添加asyncSupported属性，并将其值
+设置为true：
+@WebServlet(value="/some", asyncSupported=true)
+
+对于异步上下文对象的结束方式总结：
+1.在异步子线程使用异步上下文对象ac.complete()方法：该方法用于结束异步操作，
+并将与当前异步对象相关的request与response对象销毁
+2.在异步子线程中使用ac.dispatch()方法：该方法在结束异步操作的同时，会将参数
+指定的页面内容包含到当前异步上下文对象相关的标准输出流中。其执行效果相当于
+RequestDispatcher对象的include()方法的执行效果
+3.在异步Servlet主线程中设置ac的超时时限，当超时时限到达时，异步对象及其相关
+的request与response对象销毁
