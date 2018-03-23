@@ -1,0 +1,27 @@
+1. 带斜杠的前台相对路径的解决：
+在相对路径前添加EL表达式：${ pageContext.request.ContentPath }
+
+2. 不带斜杠的前台相对路径的解决：
+使用base标签:
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<!-- 这里需要先定义basePath -->
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme() + "://" + request.getServerName() +
+                  ":" + request.getServerPort() + path + "/";
+%>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 在这里使用base标签 -->
+        <base href="<%=basePath%>">
+        <title>aaa</title>
+    </head>
+
+    <body>
+        <!-- 这样下面的action中的相对路径就可以不加斜杠了 -->
+        <form action="test/logion.action" method="post">
+        </form>
+    </body>
+</html>
