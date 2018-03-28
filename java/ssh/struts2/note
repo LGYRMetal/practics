@@ -1,0 +1,178 @@
+------------------------ 动态调用方法 ---------------------------
+两种解决方案:
+1. 动态方法调用
+1) 需要在struts.xml中打开一个常量,默认是关闭的：
+<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+
+2) 在访问时使用下列格式访问相应的方法
+http://localhost:8080/24-dynamicMethodInvocation/test/some!doSecond.action
+在some后加一个 "!" 号，然后跟需要调用的 方法名.action
+
+
+2. 通配符定义Action，建议使用这种方案
+<struts>
+    <package name="demo" namespace="/test" extends="struts-default">
+        <action name="some_*"
+                class="com.abc.action.SomeAction" method="{1}">
+            <result>/welcome.jsp</result>
+        </action>
+    </package>
+</struts>
+在访问时，*号处用方法名代替，到时候，{1}处也将使用*号处所添的方法名代替，例
+http://localhost:8080/24-dynamicMethodInvocation/test/some_doSecond.action
+下划线 _ 是可以随意写的，写成 ! 号也可以，不写也可以,但一般不这样做，一般
+习惯写成 _
+
+
+
+------------------------------ 接收请求参数 ---------------------------
+3种方式:
+1. 属性驱动方式，这种方式很少用，一般适用表单数据比较少的情况
+将表单数据的name属性值定义为实体的属性，而且名称必须一一对应
+
+2. 域驱动方式
+
+3. 模型驱动方式
+这个action需要实现 ModelDriven 接口，并使用范型，例：
+public class LoginAction implements ModelDriven<Student> {
+    private Student student;
+
+    public String execute() {
+        return "success";
+    }
+
+    // 实现ModelDriven接口的方法
+    public Student getModel() {
+        if(student == null) {
+            student = new Student();
+        }
+        return student;
+    }
+}
+
+4. 集合数据接受，这是域驱动的一种形式
+在定义action属性时，要定义成集合，而不是数组，否则报错
+
+--------------- action 是多例的 ---------------
+
+
+------------------ 类型转换 --------------------
+1. 默认类型转换器
+
+2. 自定义类型转换器
+需要继承 DefaultTypeConverter 类
+类型转换器需要定义为双向的
+
+注册自定义类型转换器：
+1）局部类型转换器
+局部类型转换器，仅仅对指定的action的指定属性起作用。若注册方式为，在Action类
+所在的包下放值名称为如下格式的属性文件：
+ActionClassName-conversion.properties文件。其中ActionClassName是Action类名，
+-conversion.properties是固定写法。例如,SomeAction的属性文件为：
+SomeAction-conversion.properties。其内容遵循如下格式：
+属性名称 = 类型转换器的全类名，例：
+birthday = com.abc.converters.MyDateConverter。
+
+
+跳转到input视图:
+让 Action 继承 ActionSupport 类，然后在Struts.xml中为 Action 添加一个input
+视图,这样在类型转换发生错误的时候，会自动跳转回input视图。因为当类型转换
+错误时，ActionSupport会抛出TypeConversionException()异常，在遇到这个异常时，
+ActionSupport会 return "input"; 所以自定义类型转换器想要跳转到input视图，也
+需要抛出 TypeConversionException()异常。
+要实现回显需要在input视图使用 struts的标签，而不是html标签，例：
+
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<!-- 导入 Struts 标签库 -->
+<%@ taglib uri="/struts-tags" prefix="s" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>index.jsp</title>
+    </head>
+    <body>
+        <s:form action="${pageContext.request.ContextPath}/test/login"
+                method="post">
+            <s:textfield name="age" label="年龄" />
+            <s:textfield name="birthday" label="生日" />
+            <s:submit value="登录" />
+        </s:form>
+    </body>
+</html>
+或者在页面适当位置添加一个<s:fielderror/>标签即可
+
+修改struts的默认异常信息,步骤:
+(1) Action所在包中添加名称为ActionClassName.properties的属性文件，其中
+ActionClassName为Action类的类名。
+(2) 在该文件中写入内容：invalid.fieldvalue.变量名=异常提示信息，例：
+invalid.fieldvalue.age=年龄应该是整数
+
+
+2）全局类型转换器
+
+
+
+------------------ 数据验证 -------------------
+1.手工写代码方式:
+(1) 对Action中所有方法之前的验证
+Action需要继承ActionSupport，重写 void validate() 方法，在该方法中，
+将错误信息添加到 filedErrors 这个集合中：
+@Override
+public void validate() {
+    if(name = null || "".equals(name.trim())) {
+        // 如果filedError.size() > 0，则自动跳转到 input 视图
+        this.addFieldError("name", "用户名不能为空");
+    }
+}
+
+(2) 对Action中指定方法执行之前的验证
+把validate方法名改成 validate指定方法名(),例如要只验证doFirst方法，则写成:
+public void validateDoFirst() {
+    if(name = null || "".equals(name.trim())) {
+        // 如果filedError.size() > 0，则自动跳转到 input 视图
+        this.addFieldError("name", "用户名不能为空");
+    }
+} // 注意不要再写@Override了
+
+
+2. xml配置方式：仍然需要Action继承ActionSupport类，但不写validate()方法了
+(1) 对Action中所有方法之前的验证
+在 Action 类所在的包中放入一个 xml 配置文件，该文件的取名应遵守
+ActionClassName-validation.xml规则。其中ActionClassName为Action的简单类名，
+-validation为固定写法。例如，Action类为com.abc.actions.UserAction，那么该
+文件的取名应为: UserAction-validation.xml
+此 xml 的约束文件在 xwork-core.jar中的 root 下，为
+xwork-validator-version.dtd，将该约束文件中的 <!DOCTYPE> 放在<?xml?>下面,例
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+    <field name="name">
+        <!-- type在 xwork-core-version.jar中的
+             com.opensymphony.xwork2.validator.validators包中的
+        default.xml 中定义 -->
+        <field-validator type="requiredstring">
+            <!-- 相当于调用 name.trim()，默认就是true,所以下面的可以不写 -->
+            <!-- <param name="trim">true</param> -->
+            <message>用户名不能为空</message>
+        </field-validator>
+    </field>
+
+    <field name="mobile">
+        <field-validator type="requiredstring">
+            <message>手机号不能为空</message>
+        </field-validator>
+
+        <field-validator type="regex">
+            <!-- name=regexExpression也行 -->
+            <param name="regex"><![CDATA[^1[34578]\d{9}$]]></param>
+            <message>手机号格式不正确</message>
+        </field-validator>
+    </field>
+</validators>
+
+(2) 对Action中指定方法执行之前的验证
+将上面的配置文件名改成 LoginAction-login_doFirst-validation.xml 即可,这个
+login_doFirst 就是struts.xml中注册的action标签的name属性值 login_* 将 *
+替换为具体的 action 方法后的字符串
