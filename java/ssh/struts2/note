@@ -91,8 +91,11 @@ ActionSupport会 return "input"; 所以自定义类型转换器想要跳转到in
         <title>index.jsp</title>
     </head>
     <body>
-        <s:form action="${pageContext.request.ContextPath}/test/login"
+        <!-- struts2标签不能使用${pageContext.request.ContextPath} -->
+        <!-- <s:form action="${pageContext.request.ContextPath}/test/login"
                 method="post">
+        -->
+        <s:from action="test/login" method="">
             <s:textfield name="age" label="年龄" />
             <s:textfield name="birthday" label="生日" />
             <s:submit value="登录" />
@@ -176,3 +179,74 @@ xwork-validator-version.dtd，将该约束文件中的 <!DOCTYPE> 放在<?xml?>�
 将上面的配置文件名改成 LoginAction-login_doFirst-validation.xml 即可,这个
 login_doFirst 就是struts.xml中注册的action标签的name属性值 login_* 将 *
 替换为具体的 action 方法后的字符串
+
+
+3. 常用验证器：
+在 xwork-core-version.jar中的com.opensymphony.xwork2.validator.validators
+包中的 default.xml 中定义
+
+
+------------------------- 拦截器 ------------------------
+如果一个action显示的指定了拦截器，那么，系统默认的拦截器就没了，不在拦截
+这个action
+
+
+----------- 下面的缩写是包中的“功能顶层包”名称 -----------
+包的命名一般分为4-5级：
+甲方公司域名倒序 + 项目名称 + 模块名称 + 功能顶层包 + 实现类子包impl，例：
+com.bjpowernode.oa.system.users.dao.impl
+这样命名的好处是：为了保证这些包中所定义的资源具有“全球唯一性”
+
+
+dto: data transafer object 数据传输对象，这里放的都是用于承载数据的属性，
+一般不对其进行持久化
+vo: value object 值对象，这里放的都是用于承载数据的属性，一般不对其进行持
+久化
+dao: data access object 数据访问对象,这里放的都是访问db的方法
+beans: 一般beens包中存放的都是数据承载bean，即实体类。用于持久化的类，一帮称
+为实体类。而实体类中肯定要有主键属性（一般为id）
+entity: 实体，与beans包相同
+
+
+
+----- 方法拦截器 ---------------
+只拦截某个特定的action方法，其他方法不拦截
+让拦截器继承MethodFilterInterceptor,重写他的doIntercept()方法
+
+------ 多个拦截器的执行顺序 --------
+按struts.xml中注册顺序执行，如果使用拦截器栈注册，那么是在拦截器栈中的注册
+顺序
+
+
+------------- 国际化 -----------------
+全局资源文件的定义与注册:
+1.定义资源文件，文件名：basename_locale.properties；
+                内容：为需要国际化的内容，例如：
+文件名:myBaseName_zh_CN.properties/myBaseName_en_US.properties
+zh_CN内容：
+index.form.head=登录表单
+action.login.message=中国 
+
+en_US内容：
+index.form.head=Login Form
+action.login.message=China
+
+2.注册:
+在<struts/>中，注册常量: value的值值是basename
+<constant name="structs.custom.i18n.resources" value="myBaseName"/>
+
+3.读取资源文件
+(1) 在jsp页面中
+在jsp中使用struts标签库,例：
+<s:text name="index.form.head"/>
+<s:textfield name="name" key="index.form.name"/> 一般情况时，是label属性，
+不是key属性，在国际化时是key属性代替label属性
+
+(2) 在java代码中，例代码:
+String message = "中国";
+的国际化
+
+让action继承 ActionSupport 类,然后，
+String message = this.getText("action.login.message");
+
+4.使用i18n拦截器
